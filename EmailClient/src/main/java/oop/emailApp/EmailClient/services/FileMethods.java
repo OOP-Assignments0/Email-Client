@@ -9,13 +9,11 @@ import java.io.FileWriter;
 
 import org.json.*;
 
-import oop.emailApp.EmailClient.model.*;
-
 public class FileMethods {
 
 	
 	
-	public void appendJsonObjectToFile(String filePath, JSONObject obj) {
+	public static void appendJsonObjectToFile(String filePath, JSONObject obj) {
 		try {
 			JSONArray jsonArray;
 			File f1 = new File(filePath);
@@ -37,7 +35,7 @@ public class FileMethods {
 
 	}
 
-	public String ReadFromFile(String FilePath) {
+	public static String ReadFromFile(String FilePath) {
 		StringBuilder str = new StringBuilder();
 		try {
 			@SuppressWarnings("resource")
