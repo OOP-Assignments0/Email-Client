@@ -14,14 +14,12 @@ public class PostController {
 
 	@PostMapping("/SignUp")
 	public void SignUp(@RequestBody String jsonString) {
-		m.SignIn(jsonString);
+		m.SignUp(jsonString);
 	}
 
 	@PostMapping("/SignIn")
 	public void SignIn(@RequestBody String jsonString) {
-		m.SignUp(jsonString);
+		m.SignIn(jsonString);
 	}
-	
-	
 	
 }
