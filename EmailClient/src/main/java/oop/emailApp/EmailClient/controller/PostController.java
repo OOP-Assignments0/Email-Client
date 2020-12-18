@@ -2,21 +2,26 @@ package oop.emailApp.EmailClient.controller;
 
 import org.springframework.web.bind.annotation.*;
 
-import oop.emailApp.EmailClient.model.Contact;
 import oop.emailApp.EmailClient.model.RunningData;
+import oop.emailApp.EmailClient.services.Method;
 
 @CrossOrigin
 @RestController
 public class PostController {
-	
+
 	RunningData data = new RunningData();
-	@PostMapping("/signUp")
+	Method m = new Method(data);
+
+	@PostMapping("/SignUp")
 	public void SignUp(@RequestBody String jsonString) {
-		Contact.addContact(jsonString);
+		m.SignIn(jsonString);
 	}
 
-	@PostMapping("/signIn")
+	@PostMapping("/SignIn")
 	public void SignIn(@RequestBody String jsonString) {
-		
+		m.SignUp(jsonString);
 	}
+	
+	
+	
 }
