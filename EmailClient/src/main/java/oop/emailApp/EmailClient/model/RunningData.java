@@ -8,6 +8,7 @@ public class RunningData {
 	private ArrayList<Mail> Trash = new ArrayList<Mail>();
 	private ArrayList<Mail> Draft = new ArrayList<Mail>();
 	private ArrayList<Mail> Send  = new ArrayList<Mail>();
+	private Contact currentContact = new Contact();
 	public ArrayList<Mail> getInbox() {
 		return Inbox;
 	}
@@ -31,5 +32,11 @@ public class RunningData {
 	}
 	public void setSend(ArrayList<Mail> send) {
 		Send = send;
+	}
+	public Contact getCurrentContact() {
+		return currentContact;
+	}
+	public void setCurrentContact(Contact currentContact) {
+		this.currentContact = currentContact;
 	}
 }

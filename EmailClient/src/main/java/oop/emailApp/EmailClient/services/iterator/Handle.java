@@ -1,5 +1,7 @@
 package oop.emailApp.EmailClient.services.iterator;
 
+import org.json.JSONObject;
+
 import oop.emailApp.EmailClient.model.*; 
 
 public class Handle  {
@@ -16,9 +18,13 @@ public class Handle  {
 	}
 
 
-	public Contact handle(String jsonString) {
-		
-		return null;
+	public static Contact handleJsonContact (String jsonString) {
+		Contact c = new Contact();
+		JSONObject obj = new JSONObject(jsonString);
+		c.setEmail((String) obj.get("email"));
+		c.setName((String) obj.get("name"));
+		c.setPassword((String) obj.get("password"));
+		return c;
 	}
 
 }

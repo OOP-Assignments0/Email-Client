@@ -3,12 +3,14 @@ package oop.emailApp.EmailClient.controller;
 import org.springframework.web.bind.annotation.*;
 
 import oop.emailApp.EmailClient.model.Contact;
+import oop.emailApp.EmailClient.model.RunningData;
 
 @CrossOrigin
 @RestController
 public class PostController {
-
-	@PostMapping("/signUP")
+	
+	RunningData data = new RunningData();
+	@PostMapping("/signUp")
 	public void SignUp(@RequestBody String jsonString) {
 		Contact.addContact(jsonString);
 	}

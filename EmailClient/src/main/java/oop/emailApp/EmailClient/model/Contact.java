@@ -35,5 +35,7 @@ public class Contact {
 		JSONObject obj = new JSONObject(jsonString);
 		FileMethods.appendJsonObjectToFile("Users\\Contacts.json", obj);
 	}
+	
+	
 
 }
