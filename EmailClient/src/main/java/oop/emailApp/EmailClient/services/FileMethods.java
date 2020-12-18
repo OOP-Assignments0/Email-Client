@@ -43,11 +43,8 @@ public class FileMethods {
 			@SuppressWarnings("resource")
 			BufferedReader reader = new BufferedReader(new FileReader(FilePath));
 			String line = null;
-			String ls = System.getProperty("line.separator");
-
 			while ((line = reader.readLine()) != null) {
 				str.append(line);
-				str.append(ls);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

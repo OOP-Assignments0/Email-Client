@@ -2,15 +2,15 @@ package oop.emailApp.EmailClient.services.iterator;
 
 import oop.emailApp.EmailClient.model.*; 
 
-public class SignUpHandle  {
-	private static SignUpHandle instance = null;
+public class Handle  {
+	private static Handle instance = null;
 
-	private SignUpHandle() {
+	private Handle() {
 	}
 
-	public static SignUpHandle getInstance() {
+	public static Handle getInstance() {
 		if (instance == null) {
-			instance = new SignUpHandle();
+			instance = new Handle();
 		}
 		return instance;
 	}
