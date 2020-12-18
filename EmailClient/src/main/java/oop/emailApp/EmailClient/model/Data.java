@@ -1,5 +1,5 @@
 package oop.emailApp.EmailClient.model;
 
-public class data {
+public class Data {
 
 }

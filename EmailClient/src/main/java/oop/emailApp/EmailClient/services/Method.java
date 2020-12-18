@@ -1,5 +1,5 @@
 package oop.emailApp.EmailClient.services;
 
-public class method {
+public class Method {
 
 }
