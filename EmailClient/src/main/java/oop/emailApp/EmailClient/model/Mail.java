@@ -2,6 +2,8 @@ package oop.emailApp.EmailClient.model;
 
 import java.util.ArrayList;
 
+import org.json.JSONObject;
+
 
 public class Mail  {
 	private String body;
@@ -82,9 +84,9 @@ public class Mail  {
 		m.name = this.name;
 		return m ;
 	}
-	@SuppressWarnings("unchecked")
-	public org.json.simple.JSONObject dataToString() {
-		org.json.simple.JSONObject jsonObject=new org.json.simple.JSONObject();
+
+	public JSONObject dataToString() {
+		JSONObject jsonObject=new JSONObject();
 		jsonObject.put("from",this.from);
         jsonObject.put("to",this.to);
         jsonObject.put("priority",this.priority);

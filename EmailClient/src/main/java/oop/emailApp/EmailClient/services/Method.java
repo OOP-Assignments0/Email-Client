@@ -12,7 +12,9 @@ public class Method {
 	}
 	public void Send(Mail mail) {
 		data.getSend().add(mail);
-		
+		String path = "Users"+"\\"+mail.getTo()+"\\"+"Inbox.json";
+		FileMethods.appendJsonObjectToFile(path, mail.dataToString());
+		FileMethods.updateSend(data);
 	}
 	public void Delete(Mail mail) {
 		for(int i = 0 ; i < data.getInbox().size() ; i++) {
@@ -23,6 +25,8 @@ public class Method {
 				break;
 			}
 		}
+		FileMethods.updateTrash(data);
+		FileMethods.updateInbox(data);
 	}
 	public void Restore(Mail mail) {
 		for(int i = 0 ; i < data.getTrash().size() ; i++) {
@@ -33,10 +37,14 @@ public class Method {
 				break;
 			}
 		}
+		FileMethods.updateTrash(data);
+		FileMethods.updateInbox(data);
 	}
 	public void Draft(Mail mail) {
 		data.getDraft().add(mail);
-		
+		String path = "Users"+"\\"+data.getCurrentContact().getEmail()+"\\"+"Draft.json";
+		FileMethods.appendJsonObjectToFile(path, mail.dataToString());
+		FileMethods.updateDraft(data);
 	}
 	
 }
