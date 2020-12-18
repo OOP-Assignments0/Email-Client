@@ -56,14 +56,6 @@ public class FileMethods {
 		return str.toString();
 	}
 	
-	public void appendToFile() {
-		
-	}
-
-	public void appendMFile (String filePath, String Content) {
-		
-	}
-
 
 	public void updateDelete(RunningData data) {
 		JSONArray jsonArray=new JSONArray();
