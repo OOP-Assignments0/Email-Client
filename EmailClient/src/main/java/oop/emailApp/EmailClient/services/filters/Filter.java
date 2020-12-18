@@ -1,14 +1,16 @@
 package oop.emailApp.EmailClient.services.filters;
 
 public class Filter {
-	private Filter filter =  null;
+	
+	
+	private static Filter instance =  null;
 	private Filter() {}
 	
-	public Filter getInstance() {
-		if (filter==null) {
-			filter = new Filter();
+	public static Filter getInstance() {
+		if (instance==null) {
+			instance = new Filter();
 		}
-		return filter;
+		return instance;
 	}
 	
 	

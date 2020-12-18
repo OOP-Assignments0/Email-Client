@@ -2,14 +2,15 @@ package oop.emailApp.EmailClient.services.prototyping;
 
 
 public class Prototype {
-	private Prototype prototype =  null;
+	
+	private static Prototype instance =  null;
 	private Prototype() {}
 	
-	public Prototype getInstance() {
-		if (prototype==null) {
-			prototype = new Prototype();
+	public static Prototype getInstance() {
+		if (instance==null) {
+			instance = new Prototype();
 		}
-		return prototype;
+		return instance;
 	}
 	
 

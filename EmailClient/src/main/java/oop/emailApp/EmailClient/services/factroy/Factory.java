@@ -3,17 +3,19 @@ package oop.emailApp.EmailClient.services.factroy;
 
 public class Factory {
 
-	private Factory factory =  null;
+	private static Factory instance =  null;
+	
 	private Factory() {}
 	
-	public Factory getInstance() {
-		if (factory==null) {
-			factory = new Factory();
+	public static Factory getInstance() {
+		
+		if (instance==null) {
+			instance = new Factory();
 		}
-		return factory;
+		return instance;
 	}
 	
-
+	
 	
 	
 	
