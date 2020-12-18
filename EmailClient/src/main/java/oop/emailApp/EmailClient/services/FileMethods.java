@@ -20,13 +20,14 @@ public class FileMethods {
 			JSONArray jsonArray;
 			File f1 = new File(filePath);
 			if (!f1.exists()) {
+				f1.getParentFile().mkdirs();
 				f1.createNewFile();
 				jsonArray = new JSONArray();
 			} else {
 				jsonArray = new JSONArray(ReadFromFile(filePath));
 			}
 			jsonArray.put(obj);
-			FileWriter fileWriter = new FileWriter(f1.getName(), true);
+			FileWriter fileWriter = new FileWriter(filePath, true);
 			BufferedWriter bw = new BufferedWriter(fileWriter);
 			bw.write(jsonArray.toString());
 			bw.close();
@@ -40,6 +41,7 @@ public class FileMethods {
 	public static String ReadFromFile(String FilePath) {
 		StringBuilder str = new StringBuilder();
 		try {
+			
 			@SuppressWarnings("resource")
 			BufferedReader reader = new BufferedReader(new FileReader(FilePath));
 			String line = null;
@@ -49,7 +51,7 @@ public class FileMethods {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		str.deleteCharAt(str.length() - 1);
+		//str.deleteCharAt(str.length() - 1);
 		return str.toString();
 	}
 	
@@ -63,7 +65,7 @@ public class FileMethods {
 				f1.delete();
 				f1.createNewFile();
 			};
-			FileWriter fileWriter = new FileWriter(f1.getName(), true);
+			FileWriter fileWriter = new FileWriter(filePath, true);
 			BufferedWriter bw = new BufferedWriter(fileWriter);
 			bw.write(jsonArray.toString());
 			bw.close();

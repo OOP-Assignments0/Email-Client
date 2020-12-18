@@ -28,7 +28,7 @@ public class Method {
 
 	public void SignUp(String jsonString) {
 		Contact.addContact(jsonString);
-		SignIn(jsonString);
+		this.data.setCurrentContact(Handle.handleJsonContact(jsonString));
 	}
 
 	public void Send(Mail mail) {

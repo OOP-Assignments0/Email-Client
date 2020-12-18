@@ -1,9 +1,11 @@
 package oop.emailApp.EmailClient.controller;
 
+import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 
 import oop.emailApp.EmailClient.model.RunningData;
 import oop.emailApp.EmailClient.services.Method;
+import oop.emailApp.EmailClient.services.iterator.Handle;
 
 @CrossOrigin
 @RestController
@@ -20,6 +22,11 @@ public class PostController {
 	@PostMapping("/SignIn")
 	public void SignIn(@RequestBody String jsonString) {
 		m.SignIn(jsonString);
+	}
+	
+	@PostMapping("/Send")
+	public void Send(@RequestBody String jsonString) {
+		m.Send(Handle.handleJsonMail(new JSONObject(jsonString)));
 	}
 	
 }
