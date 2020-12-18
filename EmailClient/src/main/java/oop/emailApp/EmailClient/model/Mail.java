@@ -2,11 +2,13 @@ package oop.emailApp.EmailClient.model;
 
 import java.util.ArrayList;
 
-public class Mail {
-	private String[] body;
+
+public class Mail  {
+	private String body;
 	private String from;
 	private String to;
 	private String subject;
+	private String date;
 	private ArrayList<Object> attachments = new ArrayList<Object>();
 	private String attachlinks[];
 	private int priority;
@@ -21,7 +23,7 @@ public class Mail {
 	public void setSubject(String sub) {
 		this.subject = sub;
 	}
-	public void setBody(String[] email) {
+	public void setBody(String email) {
 		this.body = email;
 	}
 	public void setAttachments(ArrayList<Object> attachment) {
@@ -36,7 +38,9 @@ public class Mail {
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	public void setDate(String date) {
+		this.date = date;
+	}
 	
 	public String getFrom() {
 		return from;
@@ -47,7 +51,7 @@ public class Mail {
 	public String getSubject() {
 		return subject;
 	}
-	public String[] getBody() {
+	public String getBody() {
 		return body;
 	}
 	public ArrayList<Object> getAttachments() {
@@ -62,4 +66,35 @@ public class Mail {
 	public String getName() {
 		return name;
 	}
-}
+	public String getDate() {
+		return date;
+	}
+	public Mail copy() {
+		Mail m = new Mail();
+		m.attachments =(this.attachments);
+		m.attachlinks = this.attachlinks;
+		m.body = this.body;
+		m.from = this.from;
+		m.to = this.to;
+		m.date= this.date;
+		m.priority = this.priority;
+		m.subject  = this.subject;
+		m.name = this.name;
+		return m ;
+	}
+	@SuppressWarnings("unchecked")
+	public org.json.simple.JSONObject dataToString() {
+		org.json.simple.JSONObject jsonObject=new org.json.simple.JSONObject();
+		jsonObject.put("from",this.from);
+        jsonObject.put("to",this.to);
+        jsonObject.put("priority",this.priority);
+        jsonObject.put("subject",this.subject);
+        jsonObject.put("name",this.name);
+        jsonObject.put("date",this.date);
+        jsonObject.put("body",this.body);
+        
+		return jsonObject;
+        
+	}
+
+	}
