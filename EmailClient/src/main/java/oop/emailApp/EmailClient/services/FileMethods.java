@@ -15,7 +15,7 @@ public class FileMethods {
 
 	
 	
-	/*public static void appendJsonObjectToFile(String filePath, JSONObject obj) {
+	public static void appendJsonObjectToFile(String filePath, JSONObject obj) {
 		try {
 			JSONArray jsonArray;
 			File f1 = new File(filePath);
@@ -36,7 +36,7 @@ public class FileMethods {
 			e.printStackTrace();
 		}
 
-	}*/
+	}
 
 	public static String ReadFromFile(String FilePath) {
 		StringBuilder str = new StringBuilder();

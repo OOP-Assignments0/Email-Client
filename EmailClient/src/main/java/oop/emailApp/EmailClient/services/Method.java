@@ -116,8 +116,8 @@ public class Method {
 
 	public static void Send(Mail mail) {
 		data.getSend().add(mail);
-		// String path = "Users" + "\\" + mail.getTo() + "\\" + "Inbox.json";
-		// FileMethods.appendJsonObjectToFile(path, mail.dataToString());
+	    String path = "Users" + "\\" + mail.getTo() + "\\" + "Inbox.json";
+		FileMethods.appendJsonObjectToFile(path, mail.dataToString());
 		FileMethods.updateSend(data);
 	}
 
@@ -149,9 +149,9 @@ public class Method {
 
 	public static void Draft(Mail mail) {
 		data.getDraft().add(mail);
-		// String path = "Users" + "\\" + data.getCurrentContact().getEmail() + "\\" +
-		// "Draft.json";
-		// FileMethods.appendJsonObjectToFile(path, mail.dataToString());
+	    //String path = "Users" + "\\" + data.getCurrentContact().getEmail() + "\\" +
+		//"Draft.json";
+		//FileMethods.appendJsonObjectToFile(path, mail.dataToString());
 		FileMethods.updateDraft(data);
 	}
 
