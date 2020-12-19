@@ -131,7 +131,7 @@ public class Method {
 	public static void Delete(Mail mail) {
 		RunningData data = dictionary.get(mail.getTo());
 		for (int i = 0; i < data.getInbox().size(); i++) {
-			if (data.getInbox().get(i).getName() == mail.getName()) {
+			if (data.getInbox().get(i).getName().equalsIgnoreCase(mail.getName())) {
 				Mail m = data.getInbox().get(i).copy();
 				data.getInbox().remove(i);
 				data.getTrash().add(m);
@@ -145,7 +145,7 @@ public class Method {
 	public static void Restore(Mail mail) {
 		RunningData data = dictionary.get(mail.getTo());
 		for (int i = 0; i < data.getTrash().size(); i++) {
-			if (data.getTrash().get(i).getName() == mail.getName()) {
+			if (data.getTrash().get(i).getName().equalsIgnoreCase(mail.getName()) ) {
 				Mail m = data.getTrash().get(i).copy();
 				data.getTrash().remove(i);
 				data.getInbox().add(m);
