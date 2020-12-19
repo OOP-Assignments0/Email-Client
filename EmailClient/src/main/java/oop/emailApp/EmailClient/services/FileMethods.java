@@ -41,7 +41,10 @@ public class FileMethods {
 	public static String ReadFromFile(String FilePath) {
 		StringBuilder str = new StringBuilder();
 		try {
-			
+			File f1 = new File(FilePath);
+			if (!f1.exists()) {
+				return "";
+			}
 			@SuppressWarnings("resource")
 			BufferedReader reader = new BufferedReader(new FileReader(FilePath));
 			String line = null;
@@ -51,7 +54,6 @@ public class FileMethods {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		//str.deleteCharAt(str.length() - 1);
 		return str.toString();
 	}
 	
