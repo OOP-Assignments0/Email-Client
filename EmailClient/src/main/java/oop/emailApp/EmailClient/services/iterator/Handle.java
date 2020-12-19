@@ -9,9 +9,8 @@ import oop.emailApp.EmailClient.model.*;
 
 public class Handle {
 
-	public static Contact handleJsonContact(String jsonString) {
+	public static Contact handleJsonContact(JSONObject obj) {
 		Contact c = new Contact();
-		JSONObject obj = new JSONObject(jsonString);
 		c.setEmail((String) obj.get("email"));
 		c.setName((String) obj.get("name"));
 		c.setPassword((String) obj.get("password"));
@@ -32,11 +31,36 @@ public class Handle {
 
 	public static ArrayList<Mail> loadMailsToList(String FileContent) {
 		ArrayList<Mail> arrayList = new ArrayList<Mail>();
-		JSONArray arr = new JSONArray(FileContent);
-		JSONObject obj;
-		for (int i = 0; i < arr.length(); i++) {
-			obj = (JSONObject) arr.get(i);
-			arrayList.add(handleJsonMail(obj));
+		if (!FileContent.equalsIgnoreCase("")) {
+			try {
+				JSONArray arr = new JSONArray(FileContent);
+				JSONObject obj;
+				for (int i = 0; i < arr.length(); i++) {
+					obj = (JSONObject) arr.get(i);
+					arrayList.add(handleJsonMail(obj));
+				}
+
+			} catch (Exception e) {
+				System.out.println("Cannot load mails");
+			}
+		}
+		return arrayList;
+	}
+	
+	public static ArrayList<Contact> loadContactsToList(String FileContent) {
+		ArrayList<Contact> arrayList = new ArrayList<Contact>();
+		if (!FileContent.equalsIgnoreCase("")) {
+			try {
+				JSONArray arr = new JSONArray(FileContent);
+				JSONObject obj;
+				for (int i = 0; i < arr.length(); i++) {
+					obj = (JSONObject) arr.get(i);
+					arrayList.add(handleJsonContact(obj));
+				}
+
+			} catch (Exception e) {
+				System.out.println("Cannot load contacts");
+			}
 		}
 		return arrayList;
 	}

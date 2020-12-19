@@ -3,7 +3,6 @@ package oop.emailApp.EmailClient.services;
 import oop.emailApp.EmailClient.model.Contact;
 import oop.emailApp.EmailClient.model.Mail;
 import oop.emailApp.EmailClient.model.RunningData;
-import oop.emailApp.EmailClient.services.iterator.Handle;
 
 public class Method {
 
@@ -14,7 +13,7 @@ public class Method {
 	}
 
 	public void SignIn(String jsonString) {
-		this.data.setCurrentContact(Handle.handleJsonContact(jsonString));
+		/*this.data.setCurrentContact(Handle.handleJsonContact(jsonString));
 		String fileContent = FileMethods
 				.ReadFromFile("Users\\" + this.data.getCurrentContact().getEmail() + "\\Inbox.json");
 		this.data.setInbox(Handle.loadMailsToList(fileContent));
@@ -23,12 +22,12 @@ public class Method {
 		fileContent = FileMethods.ReadFromFile("Users\\" + this.data.getCurrentContact().getEmail() + "\\Draft.json");
 		this.data.setDraft(Handle.loadMailsToList(fileContent));
 		fileContent = FileMethods.ReadFromFile("Users\\" + this.data.getCurrentContact().getEmail() + "\\Send.json");
-		this.data.setSend(Handle.loadMailsToList(fileContent));
+		this.data.setSend(Handle.loadMailsToList(fileContent));*/
 	}
 
 	public void SignUp(String jsonString) {
 		Contact.addContact(jsonString);
-		this.data.setCurrentContact(Handle.handleJsonContact(jsonString));
+		//this.data.setCurrentContact(Handle.handleJsonContact(jsonString));
 	}
 
 	public void Send(Mail mail) {
