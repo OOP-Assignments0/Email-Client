@@ -87,6 +87,8 @@ public class FileMethods {
 		String path = "Users"+"\\"+data.getCurrentContact().getEmail()+"\\"+"Inbox.json";
 		jsonFile(path, jsonArray);
 	}
+	
+	
 	public static void updateTrash(RunningData data) {
 		JSONArray jsonArray=new JSONArray();
 		for(int i = 0 ; i < data.getTrash().size() ; i++) {
@@ -95,6 +97,8 @@ public class FileMethods {
 		String path = "Users"+"\\"+data.getCurrentContact().getEmail()+"\\"+"Trash.json";
 		jsonFile(path, jsonArray);
 	}
+	
+	
 	public static void updateDraft(RunningData data) {
 		JSONArray jsonArray=new JSONArray();
 		for(int i = 0 ; i < data.getDraft().size() ; i++) {
@@ -111,6 +115,8 @@ public class FileMethods {
 		String path = "Users"+"\\"+data.getCurrentContact().getEmail()+"\\"+"Send.json";
 		jsonFile(path, jsonArray);
 	}
+	
+	
 	
 	public static void updateContacts(RunningData data) {
 		JSONArray jsonArray= new JSONArray();

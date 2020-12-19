@@ -1,7 +1,6 @@
 package oop.emailApp.EmailClient.services;
 
 import java.util.ArrayList;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -122,6 +121,7 @@ public class Method {
 	}
 
 	public static void Send(Mail mail) {
+		RunningData data = dictionary.get(mail.getFrom());
 		data.getSend().add(mail);
 	    String path = "Users" + "\\" + mail.getTo() + "\\" + "Inbox.json";
 		FileMethods.appendJsonObjectToFile(path, mail.dataToString());
@@ -129,6 +129,7 @@ public class Method {
 	}
 
 	public static void Delete(Mail mail) {
+		RunningData data = dictionary.get(mail.getTo());
 		for (int i = 0; i < data.getInbox().size(); i++) {
 			if (data.getInbox().get(i).getName() == mail.getName()) {
 				Mail m = data.getInbox().get(i).copy();
@@ -142,6 +143,7 @@ public class Method {
 	}
 
 	public static void Restore(Mail mail) {
+		RunningData data = dictionary.get(mail.getTo());
 		for (int i = 0; i < data.getTrash().size(); i++) {
 			if (data.getTrash().get(i).getName() == mail.getName()) {
 				Mail m = data.getTrash().get(i).copy();
@@ -155,6 +157,7 @@ public class Method {
 	}
 
 	public static void Draft(Mail mail) {
+		RunningData data = dictionary.get(mail.getFrom());
 		data.getDraft().add(mail);
 	    //String path = "Users" + "\\" + data.getCurrentContact().getEmail() + "\\" +
 		//"Draft.json";
