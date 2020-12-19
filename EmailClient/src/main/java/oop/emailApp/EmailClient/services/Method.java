@@ -26,25 +26,25 @@ public class Method {
 		RunningData data = new RunningData();
 		loadContacts(email, data);
 		if (SetCurrentUser(email, password, data)) {
-			String FileContent = FileMethods.ReadFromFile("Users\\" + email + "\\Inbox.json");
+			String FileContent = FileMethods.ReadFromFile("Users\\" + email + "\\Inbox\\Inbox.json");
 			if ((!FileContent.equalsIgnoreCase("")) && FileContent != null) {
 				data.setInbox(Handle.loadMailsToList(FileContent));
 			} else {
 				data.getInbox().clear();
 			}
-			FileContent = FileMethods.ReadFromFile("Users\\" + email + "\\Draft.json");
+			FileContent = FileMethods.ReadFromFile("Users\\" + email + "\\Draft\\Draft.json");
 			if ((!FileContent.equalsIgnoreCase("")) && FileContent != null) {
 				data.setDraft(Handle.loadMailsToList(FileContent));
 			} else {
 				data.getDraft().clear();
 			}
-			FileContent = FileMethods.ReadFromFile("Users\\" + email + "\\Send.json");
+			FileContent = FileMethods.ReadFromFile("Users\\" + email + "\\Send\\Send.json");
 			if ((!FileContent.equalsIgnoreCase("")) && FileContent != null) {
 				data.setSend(Handle.loadMailsToList(FileContent));
 			} else {
 				data.getSend().clear();
 			}
-			FileContent = FileMethods.ReadFromFile("Users\\" + email + "\\Trash.json");
+			FileContent = FileMethods.ReadFromFile("Users\\" + email + "\\Trash\\Trash.json");
 			if ((!FileContent.equalsIgnoreCase("")) && FileContent != null) {
 				data.setTrash(Handle.loadMailsToList(FileContent));
 			} else {
