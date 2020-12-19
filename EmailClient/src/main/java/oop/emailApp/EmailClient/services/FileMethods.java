@@ -62,6 +62,7 @@ public class FileMethods {
 			
 			File f1 = new File(filePath);
 			if (!f1.exists()) {
+				f1.getParentFile().mkdirs();
 				f1.createNewFile();	
 			} else {
 				f1.delete();
@@ -113,7 +114,7 @@ public class FileMethods {
 	
 	public static void updateContacts(RunningData data) {
 		JSONArray jsonArray= new JSONArray();
-		for(int i = 0 ; i < data.getSend().size() ; i++) {
+		for(int i = 0 ; i < data.getContacts().size() ; i++) {
 			jsonArray.put(data.getContacts().get(i).ContactTOJsonObject());
 		}
 		jsonFile("Users\\Contacts.json", jsonArray);

@@ -22,7 +22,7 @@ public class Method {
 	public static void SignIn(String email, String password) {
 		RunningData data =new RunningData() ; 
 		loadContacts(email,data);
-		if (SetCurrentUser(email, password)) {
+		if (SetCurrentUser(email, password,data)) {
 			String FileContent = FileMethods.ReadFromFile("Users\\" + email + "\\Inbox.json");
 			if ((!FileContent.equalsIgnoreCase("")) && FileContent != null) {
 				data.setInbox(Handle.loadMailsToList(FileContent));
@@ -56,7 +56,7 @@ public class Method {
 	public static void SignUp(String email, String name, String password) {
 		RunningData data = new RunningData();
 		loadContacts(email,data);
-		if (!UserFound(email)) {
+		if (!UserFound(email,data)) {
 			Contact c = new Contact(email, name, password);
 			data.getContacts().add(c);
 			data.setCurrentContact(c);
@@ -73,14 +73,13 @@ public class Method {
 		data.setContacts(Handle.loadContactsToList(FileContent));
 	}
 
-	public static boolean UserFound(String email) {
+	public static boolean UserFound(String email,RunningData data) {
 		boolean User = false;
-		ArrayList<Contact> contacts = dictionary.get(email).getContacts();
+		ArrayList<Contact> contacts = data.getContacts();
 		for (int i = 0; i < contacts.size(); i++) {
 			if (contacts.get(i).getEmail().equalsIgnoreCase(email)) {
 				User = true;
 				break;
-
 			}
 		}
 		return User;
@@ -107,13 +106,13 @@ public class Method {
 	 * this.data.setTrash(Handle.loadMailsToList(FileContent)); } }
 	 */
 
-	public static boolean SetCurrentUser(String email, String password) {
+	public static boolean SetCurrentUser(String email, String password,RunningData data) {
 		boolean User = false;
-		ArrayList<Contact> contacts = dictionary.get(email).getContacts();
+		ArrayList<Contact> contacts = data.getContacts();
 		for (int i = 0; i < contacts.size(); i++) {
 			if (contacts.get(i).getEmail().equalsIgnoreCase(email)) {
 				if (contacts.get(i).getPassword().equalsIgnoreCase(password)) {
-					dictionary.get(email).setCurrentContact(contacts.get(i));
+					data.setCurrentContact(contacts.get(i));
 					User = true;
 					break;
 				}
