@@ -20,9 +20,9 @@ public class Method {
 	}*/
 
 	public static void SignIn(String email, String password) {
-		loadContacts(email);
+		RunningData data =new RunningData() ; 
+		loadContacts(email,data);
 		if (SetCurrentUser(email, password)) {
-			RunningData data =new RunningData() ; 
 			String FileContent = FileMethods.ReadFromFile("Users\\" + email + "\\Inbox.json");
 			if ((!FileContent.equalsIgnoreCase("")) && FileContent != null) {
 				data.setInbox(Handle.loadMailsToList(FileContent));
@@ -54,21 +54,23 @@ public class Method {
 	}
 
 	public static void SignUp(String email, String name, String password) {
-		loadContacts(email);
+		RunningData data = new RunningData();
+		loadContacts(email,data);
 		if (!UserFound(email)) {
 			Contact c = new Contact(email, name, password);
-			dictionary.get(email).getContacts().add(c);
-			dictionary.get(email).setCurrentContact(c);
-			FileMethods.updateContacts(dictionary.get(email));
+			data.getContacts().add(c);
+			data.setCurrentContact(c);
+			FileMethods.updateContacts(data);
+			dictionary.put(email, data);
 		} else {
 			System.out.println("USER IS ALREADY FOUND");
 			SignIn(email, password);
 		}
 	}
 
-	private static void loadContacts(String email) {
+	private static void loadContacts(String email,RunningData data) {
 		String FileContent = FileMethods.ReadFromFile("Users\\Contacts.json");
-		dictionary.get(email).setContacts(Handle.loadContactsToList(FileContent));
+		data.setContacts(Handle.loadContactsToList(FileContent));
 	}
 
 	public static boolean UserFound(String email) {
