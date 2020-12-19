@@ -1,5 +1,7 @@
 package oop.emailApp.EmailClient.services;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -24,25 +26,25 @@ public class Method {
 		RunningData data = new RunningData();
 		loadContacts(email, data);
 		if (SetCurrentUser(email, password, data)) {
-			String FileContent = FileMethods.ReadFromFile("Users\\" + email + "\\Inbox.json");
+			String FileContent = FileMethods.ReadFromFile("Users\\" + email + "\\Inbox\\Inbox.json");
 			if ((!FileContent.equalsIgnoreCase("")) && FileContent != null) {
 				data.setInbox(Handle.loadMailsToList(FileContent));
 			} else {
 				data.getInbox().clear();
 			}
-			FileContent = FileMethods.ReadFromFile("Users\\" + email + "\\Draft.json");
+			FileContent = FileMethods.ReadFromFile("Users\\" + email + "\\Draft\\Draft.json");
 			if ((!FileContent.equalsIgnoreCase("")) && FileContent != null) {
 				data.setDraft(Handle.loadMailsToList(FileContent));
 			} else {
 				data.getDraft().clear();
 			}
-			FileContent = FileMethods.ReadFromFile("Users\\" + email + "\\Send.json");
+			FileContent = FileMethods.ReadFromFile("Users\\" + email + "\\Send\\Send.json");
 			if ((!FileContent.equalsIgnoreCase("")) && FileContent != null) {
 				data.setSend(Handle.loadMailsToList(FileContent));
 			} else {
 				data.getSend().clear();
 			}
-			FileContent = FileMethods.ReadFromFile("Users\\" + email + "\\Trash.json");
+			FileContent = FileMethods.ReadFromFile("Users\\" + email + "\\Trash\\Trash.json");
 			if ((!FileContent.equalsIgnoreCase("")) && FileContent != null) {
 				data.setTrash(Handle.loadMailsToList(FileContent));
 			} else {
@@ -147,35 +149,71 @@ public class Method {
 
 	public static void Send(Mail mail) {
 		RunningData data = dictionary.get(mail.getFrom());
-		data.getSend().add(mail);
-		String path = "Users" + "\\" + mail.getTo() + "\\" + "Inbox.json";
+
+		String InboxPath =  "Users" + "\\" + mail.getTo() + "\\" + "Inbox\\"+mail.getName();
+		mail.setName(FileMethods.CreateFolder(InboxPath));
+		
+		String path = "Users" + "\\" + mail.getTo() + "\\" + "Inbox\\Inbox.json";
+
 		FileMethods.appendJsonObjectToFile(path, mail.dataToString());
+		
+		String SendPath =  "Users" + "\\" + mail.getFrom() + "\\" + "Inbox\\"+mail.getName();
+		mail.setName(FileMethods.CreateFolder(SendPath));
+		data.getSend().add(mail);
 		FileMethods.updateSend(data);
 	}
 
 	public static void Delete(Mail mail) {
 		RunningData data = dictionary.get(mail.getTo());
+		
+		String SourcePath = "Users" + "\\" + mail.getTo() + "\\" + "Inbox\\"+mail.getName();
+		String TargetPath = "Users" + "\\" + mail.getTo() + "\\" + "Trash\\"+mail.getName();
+		String name = FileMethods.checkFile(TargetPath);
+		TargetPath = "Users" + "\\" + mail.getTo() + "\\" + "Trash\\" +name;
 		for (int i = 0; i < data.getInbox().size(); i++) {
 			if (data.getInbox().get(i).getName().equalsIgnoreCase(mail.getName())) {
 				Mail m = data.getInbox().get(i).copy();
 				data.getInbox().remove(i);
+				m.setName(name);
 				data.getTrash().add(m);
 				break;
 			}
 		}
+		File source = new File(SourcePath);
+		File target = new File(TargetPath);
+		try {
+			FileMethods.copyDirectoryCompatibityMode(source, target);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		FileMethods.delete(source);
 		FileMethods.updateTrash(data);
 		FileMethods.updateInbox(data);
 	}
 
 	public static void Restore(Mail mail) {
 		RunningData data = dictionary.get(mail.getTo());
+		
+
+		String SourcePath = "Users" + "\\" + mail.getTo() + "\\" + "Trash\\"+mail.getName();
+		String TargetPath = "Users" + "\\" + mail.getTo() + "\\" + "Inbox\\"+mail.getName();
+		String name = FileMethods.checkFile(TargetPath);
+		TargetPath = "Users" + "\\" + mail.getTo() + "\\" + "Inbox\\" +name;
 		for (int i = 0; i < data.getTrash().size(); i++) {
 			if (data.getTrash().get(i).getName().equalsIgnoreCase(mail.getName())) {
 				Mail m = data.getTrash().get(i).copy();
 				data.getTrash().remove(i);
+				m.setName(name);
 				data.getInbox().add(m);
 				break;
 			}
+		}
+		File source = new File(SourcePath);
+		File target = new File(TargetPath);
+		try {
+			FileMethods.copyDirectoryCompatibityMode(source, target);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 		FileMethods.updateTrash(data);
 		FileMethods.updateInbox(data);
@@ -183,10 +221,9 @@ public class Method {
 
 	public static void Draft(Mail mail) {
 		RunningData data = dictionary.get(mail.getFrom());
+		String DraftPath =  "Users" + "\\" + mail.getFrom() + "\\" + "Draft\\"+mail.getName();
+		mail.setName(FileMethods.CreateFolder(DraftPath));
 		data.getDraft().add(mail);
-		// String path = "Users" + "\\" + data.getCurrentContact().getEmail() + "\\" +
-		// "Draft.json";
-		// FileMethods.appendJsonObjectToFile(path, mail.dataToString());
 		FileMethods.updateDraft(data);
 	}
 
