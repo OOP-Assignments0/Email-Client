@@ -1,6 +1,9 @@
 package oop.emailApp.EmailClient.services;
 
 import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.HashMap;
+import java.util.Map;
 
 import oop.emailApp.EmailClient.model.Contact;
 import oop.emailApp.EmailClient.model.Mail;
@@ -8,7 +11,8 @@ import oop.emailApp.EmailClient.model.RunningData;
 
 public class Method {
 
-	private static RunningData data = new RunningData();
+	//private static RunningData data = new RunningData();
+	private static Map<String, RunningData> dictionary = new HashMap<String, RunningData>();
 	
 	private Method() {}
 	/*public Method(RunningData data) {
@@ -16,8 +20,9 @@ public class Method {
 	}*/
 
 	public static void SignIn(String email, String password) {
-		loadContacts();
+		loadContacts(email);
 		if (SetCurrentUser(email, password)) {
+			RunningData data =new RunningData() ; 
 			String FileContent = FileMethods.ReadFromFile("Users\\" + email + "\\Inbox.json");
 			if ((!FileContent.equalsIgnoreCase("")) && FileContent != null) {
 				data.setInbox(Handle.loadMailsToList(FileContent));
@@ -42,32 +47,33 @@ public class Method {
 			}else {
 				data.getTrash().clear();
 			}
+			dictionary.put(email, data);
 		} else {
 			System.out.println("INCORRECT USEREMAIL OR PASSWORD");
 		}
 	}
 
 	public static void SignUp(String email, String name, String password) {
-		loadContacts();
+		loadContacts(email);
 		if (!UserFound(email)) {
 			Contact c = new Contact(email, name, password);
-			data.getContacts().add(c);
-			data.setCurrentContact(c);
-			FileMethods.updateContacts(data);
+			dictionary.get(email).getContacts().add(c);
+			dictionary.get(email).setCurrentContact(c);
+			FileMethods.updateContacts(dictionary.get(email));
 		} else {
 			System.out.println("USER IS ALREADY FOUND");
 			SignIn(email, password);
 		}
 	}
 
-	private static void loadContacts() {
+	private static void loadContacts(String email) {
 		String FileContent = FileMethods.ReadFromFile("Users\\Contacts.json");
-		data.setContacts(Handle.loadContactsToList(FileContent));
+		dictionary.get(email).setContacts(Handle.loadContactsToList(FileContent));
 	}
 
 	public static boolean UserFound(String email) {
 		boolean User = false;
-		ArrayList<Contact> contacts = data.getContacts();
+		ArrayList<Contact> contacts = dictionary.get(email).getContacts();
 		for (int i = 0; i < contacts.size(); i++) {
 			if (contacts.get(i).getEmail().equalsIgnoreCase(email)) {
 				User = true;
@@ -101,11 +107,11 @@ public class Method {
 
 	public static boolean SetCurrentUser(String email, String password) {
 		boolean User = false;
-		ArrayList<Contact> contacts = data.getContacts();
+		ArrayList<Contact> contacts = dictionary.get(email).getContacts();
 		for (int i = 0; i < contacts.size(); i++) {
 			if (contacts.get(i).getEmail().equalsIgnoreCase(email)) {
 				if (contacts.get(i).getPassword().equalsIgnoreCase(password)) {
-					data.setCurrentContact(contacts.get(i));
+					dictionary.get(email).setCurrentContact(contacts.get(i));
 					User = true;
 					break;
 				}
