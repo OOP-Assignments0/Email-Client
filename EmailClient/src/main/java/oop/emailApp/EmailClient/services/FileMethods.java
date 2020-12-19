@@ -160,42 +160,62 @@ public class FileMethods {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	public static void updateInbox(RunningData data) {
-		JSONArray jsonArray=new JSONArray();
+		/*JSONArray jsonArray=new JSONArray();
 		for(int i = 0 ; i < data.getTrash().size() ; i++) {
+<<<<<<< HEAD
 			jsonArray.put(data.getTrash().get(i).dataToString());
 		}
+		String path = "Users"+"\\"+data.getCurrentContact().getEmail()+"\\"+"Inbox\\Inbox.json";
+=======
+			jsonArray.put(data.getInbox().get(i).dataToString());
+		}*/
+		JSONArray jsonArray = Handle.mailListToJsonArray(data.getInbox());
 		String path = "Users"+"\\"+data.getCurrentContact().getEmail()+"\\"+"Inbox\\Inbox.json";
 		jsonFile(path, jsonArray);
 	}
 	
 	
 	public static void updateTrash(RunningData data) {
-		JSONArray jsonArray=new JSONArray();
+		/*JSONArray jsonArray=new JSONArray();
 		for(int i = 0 ; i < data.getTrash().size() ; i++) {
 			jsonArray.put(data.getTrash().get(i).dataToString());
+<<<<<<< HEAD
 		}
+		String path = "Users"+"\\"+data.getCurrentContact().getEmail()+"\\"+"Trash\\Trash.json";
+=======
+		}*/
+		JSONArray jsonArray = Handle.mailListToJsonArray(data.getTrash());
 		String path = "Users"+"\\"+data.getCurrentContact().getEmail()+"\\"+"Trash\\Trash.json";
 		jsonFile(path, jsonArray);
 	}
 	
 	
 	public static void updateDraft(RunningData data) {
-		JSONArray jsonArray=new JSONArray();
+		/*JSONArray jsonArray=new JSONArray();
 		for(int i = 0 ; i < data.getDraft().size() ; i++) {
 			jsonArray.put(data.getDraft().get(i).dataToString());
+<<<<<<< HEAD
 		}
+		String path = "Users"+"\\"+data.getCurrentContact().getEmail()+"\\"+"Draft\\Draft.json";
+=======
+		}*/
+		JSONArray jsonArray = Handle.mailListToJsonArray(data.getDraft());
 		String path = "Users"+"\\"+data.getCurrentContact().getEmail()+"\\"+"Draft\\Draft.json";
 		jsonFile(path, jsonArray);
 	}
 	public static void updateSend(RunningData data) {
-		JSONArray jsonArray=new JSONArray();
+		/*JSONArray jsonArray=new JSONArray();
 		for(int i = 0 ; i < data.getSend().size() ; i++) {
 			jsonArray.put(data.getSend().get(i).dataToString());
+<<<<<<< HEAD
 		}
+		String path = "Users"+"\\"+data.getCurrentContact().getEmail()+"\\"+"Send\\Send.json";
+=======
+		}*/
+		JSONArray jsonArray = Handle.mailListToJsonArray(data.getSend());
 		String path = "Users"+"\\"+data.getCurrentContact().getEmail()+"\\"+"Send\\Send.json";
 		jsonFile(path, jsonArray);
 	}
@@ -209,29 +229,5 @@ public class FileMethods {
 		}
 		jsonFile("Users\\Contacts.json", jsonArray);
 	}
-	/*public void appendContactToFile(String filePath, Contact contact) {
-		try {
-			JSONArray jsonArray;
-			File f1 = new File(filePath);
-			if (!f1.exists()) {
-				f1.createNewFile();
-				jsonArray = new JSONArray();
-			} else {
-				jsonArray = new JSONArray(ReadFromFile(filePath));
-			}
-			JSONObject obj = new JSONObject("{\"email\":\"" + contact.getEmail() + "\",\"name\":\"" + contact.getName()
-					+ "\",\"password\":\"" + contact.getPassword() + "\"}");
-			jsonArray.put(obj);
-			FileWriter fileWriter = new FileWriter(f1.getName(), true);
-			BufferedWriter bw = new BufferedWriter(fileWriter);
-			bw.write(jsonArray.toString());
-			bw.close();
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-	}*/
-
 
 }

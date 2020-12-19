@@ -64,5 +64,13 @@ public class Handle {
 		}
 		return arrayList;
 	}
+	
+	public static JSONArray mailListToJsonArray (ArrayList<Mail> list) {
+		JSONArray jsonArray=new JSONArray();
+		for(int i = 0 ; i < list.size() ; i++) {
+			jsonArray.put(list.get(i).dataToString());
+		}
+		return jsonArray;
+	}
 
 }
