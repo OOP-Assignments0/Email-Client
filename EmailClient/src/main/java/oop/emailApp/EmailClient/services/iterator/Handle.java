@@ -31,7 +31,7 @@ public class Handle {
 
 	public static ArrayList<Mail> loadMailsToList(String FileContent) {
 		ArrayList<Mail> arrayList = new ArrayList<Mail>();
-		if (!FileContent.equalsIgnoreCase("")) {
+		if ((!FileContent.equalsIgnoreCase(""))&&FileContent!=null) {
 			try {
 				JSONArray arr = new JSONArray(FileContent);
 				JSONObject obj;
@@ -49,7 +49,7 @@ public class Handle {
 	
 	public static ArrayList<Contact> loadContactsToList(String FileContent) {
 		ArrayList<Contact> arrayList = new ArrayList<Contact>();
-		if (!FileContent.equalsIgnoreCase("")) {
+		if ((!FileContent.equalsIgnoreCase(""))&&FileContent!=null){
 			try {
 				JSONArray arr = new JSONArray(FileContent);
 				JSONObject obj;

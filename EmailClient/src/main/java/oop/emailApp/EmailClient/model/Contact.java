@@ -2,10 +2,16 @@ package oop.emailApp.EmailClient.model;
 
 import org.json.JSONObject;
 
-import oop.emailApp.EmailClient.services.FileMethods;
 
 public class Contact {
 	private String email,name,password;
+	
+	public Contact() {}
+	public Contact(String email,String name,String password) {
+		this.email=email;
+		this.name=name;
+		this.password=password;
+	}
 
 	public String getEmail() {
 		return email;
@@ -31,9 +37,12 @@ public class Contact {
 		this.password = password;
 	}
 	
-	public static void addContact(String jsonString) {
-		JSONObject obj = new JSONObject(jsonString);
-		FileMethods.appendJsonObjectToFile("Users\\Contacts.json", obj);
+	public  JSONObject ContactTOJsonObject() {
+		JSONObject obj = new JSONObject();
+		obj.put("email", this.getEmail());
+		obj.put("name", this.getName());
+		obj.put("password", this.getPassword());
+		return obj;
 	}
 	
 	
