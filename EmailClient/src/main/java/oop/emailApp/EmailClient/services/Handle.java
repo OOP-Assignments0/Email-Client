@@ -1,4 +1,4 @@
-package oop.emailApp.EmailClient.services.iterator;
+package oop.emailApp.EmailClient.services;
 
 import java.util.ArrayList;
 

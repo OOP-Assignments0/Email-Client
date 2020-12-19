@@ -4,7 +4,7 @@ import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 
 import oop.emailApp.EmailClient.services.Method;
-import oop.emailApp.EmailClient.services.iterator.Handle;
+import oop.emailApp.EmailClient.services.Handle;
 
 @CrossOrigin
 @RestController

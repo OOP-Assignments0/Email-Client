@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import oop.emailApp.EmailClient.model.Contact;
 import oop.emailApp.EmailClient.model.Mail;
 import oop.emailApp.EmailClient.model.RunningData;
-import oop.emailApp.EmailClient.services.iterator.Handle;
 
 public class Method {
 
@@ -22,18 +21,26 @@ public class Method {
 			String FileContent = FileMethods.ReadFromFile("Users\\" + email + "\\Inbox.json");
 			if ((!FileContent.equalsIgnoreCase("")) && FileContent != null) {
 				data.setInbox(Handle.loadMailsToList(FileContent));
+			}else {
+				data.getInbox().clear();
 			}
 			FileContent = FileMethods.ReadFromFile("Users\\" + email + "\\Draft.json");
 			if ((!FileContent.equalsIgnoreCase("")) && FileContent != null) {
 				data.setDraft(Handle.loadMailsToList(FileContent));
+			}else {
+				data.getDraft().clear();
 			}
 			FileContent = FileMethods.ReadFromFile("Users\\" + email + "\\Send.json");
 			if ((!FileContent.equalsIgnoreCase("")) && FileContent != null) {
 				data.setSend(Handle.loadMailsToList(FileContent));
+			}else {
+				data.getSend().clear();
 			}
 			FileContent = FileMethods.ReadFromFile("Users\\" + email + "\\Trash.json");
 			if ((!FileContent.equalsIgnoreCase("")) && FileContent != null) {
 				data.setTrash(Handle.loadMailsToList(FileContent));
+			}else {
+				data.getTrash().clear();
 			}
 		} else {
 			System.out.println("INCORRECT USEREMAIL OR PASSWORD");
