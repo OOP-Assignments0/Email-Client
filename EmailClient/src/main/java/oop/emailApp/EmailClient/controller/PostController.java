@@ -29,6 +29,10 @@ public class PostController {
 	public void Send(@RequestBody String jsonString) {
 		Method.Send(Handle.handleJsonMail(new JSONObject(jsonString)));
 	}
+	@PostMapping("/Delete")
+	public void Delete(@RequestBody String jsonString) {
+		Method.Delete(Handle.handleJsonMail(new JSONObject(jsonString)));
+	}
 
 	@PostMapping("/Filter")
 	public String filter(@RequestBody String jsonString) {

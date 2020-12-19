@@ -104,7 +104,7 @@ public class Method {
 		case "Send":
 			list = dictionary.get(Useremail).getSend();
 			break;
-		default :
+		default:
 			return list;
 		}
 		return filter.meetFilter(list, Word);
@@ -150,26 +150,28 @@ public class Method {
 	public static void Send(Mail mail) {
 		RunningData data = dictionary.get(mail.getFrom());
 
-		String InboxPath =  "Users" + "\\" + mail.getTo() + "\\" + "Inbox\\"+mail.getName();
+		String InboxPath = "Users" + "\\" + mail.getTo() + "\\" + "Inbox\\" + mail.getName();
 		mail.setName(FileMethods.CreateFolder(InboxPath));
-		
+
 		String path = "Users" + "\\" + mail.getTo() + "\\" + "Inbox\\Inbox.json";
 
 		FileMethods.appendJsonObjectToFile(path, mail.dataToString());
-		
-		String SendPath =  "Users" + "\\" + mail.getFrom() + "\\" + "Inbox\\"+mail.getName();
+		String SendPath = "Users" + "\\" + mail.getFrom() + "\\" + "Send\\" + mail.getName();
 		mail.setName(FileMethods.CreateFolder(SendPath));
 		data.getSend().add(mail);
+		if (dictionary.containsKey(mail.getTo())) {
+			dictionary.get(mail.getTo()).getInbox().add(mail);
+		}
 		FileMethods.updateSend(data);
 	}
 
 	public static void Delete(Mail mail) {
 		RunningData data = dictionary.get(mail.getTo());
-		
-		String SourcePath = "Users" + "\\" + mail.getTo() + "\\" + "Inbox\\"+mail.getName();
-		String TargetPath = "Users" + "\\" + mail.getTo() + "\\" + "Trash\\"+mail.getName();
+
+		String SourcePath = "Users" + "\\" + mail.getTo() + "\\" + "Inbox\\" + mail.getName();
+		String TargetPath = "Users" + "\\" + mail.getTo() + "\\" + "Trash\\" + mail.getName();
 		String name = FileMethods.checkFile(TargetPath);
-		TargetPath = "Users" + "\\" + mail.getTo() + "\\" + "Trash\\" +name;
+		TargetPath = "Users" + "\\" + mail.getTo() + "\\" + "Trash\\" + name;
 		for (int i = 0; i < data.getInbox().size(); i++) {
 			if (data.getInbox().get(i).getName().equalsIgnoreCase(mail.getName())) {
 				Mail m = data.getInbox().get(i).copy();
@@ -193,12 +195,11 @@ public class Method {
 
 	public static void Restore(Mail mail) {
 		RunningData data = dictionary.get(mail.getTo());
-		
 
-		String SourcePath = "Users" + "\\" + mail.getTo() + "\\" + "Trash\\"+mail.getName();
-		String TargetPath = "Users" + "\\" + mail.getTo() + "\\" + "Inbox\\"+mail.getName();
+		String SourcePath = "Users" + "\\" + mail.getTo() + "\\" + "Trash\\" + mail.getName();
+		String TargetPath = "Users" + "\\" + mail.getTo() + "\\" + "Inbox\\" + mail.getName();
 		String name = FileMethods.checkFile(TargetPath);
-		TargetPath = "Users" + "\\" + mail.getTo() + "\\" + "Inbox\\" +name;
+		TargetPath = "Users" + "\\" + mail.getTo() + "\\" + "Inbox\\" + name;
 		for (int i = 0; i < data.getTrash().size(); i++) {
 			if (data.getTrash().get(i).getName().equalsIgnoreCase(mail.getName())) {
 				Mail m = data.getTrash().get(i).copy();
@@ -221,7 +222,7 @@ public class Method {
 
 	public static void Draft(Mail mail) {
 		RunningData data = dictionary.get(mail.getFrom());
-		String DraftPath =  "Users" + "\\" + mail.getFrom() + "\\" + "Draft\\"+mail.getName();
+		String DraftPath = "Users" + "\\" + mail.getFrom() + "\\" + "Draft\\" + mail.getName();
 		mail.setName(FileMethods.CreateFolder(DraftPath));
 		data.getDraft().add(mail);
 		FileMethods.updateDraft(data);

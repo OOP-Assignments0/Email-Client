@@ -46,7 +46,7 @@ public class FileMethods {
 		String old = FilePath;
 		File file = new File(FilePath);
 		if(!file.exists()) {
-			file.mkdir();
+			file.mkdirs();
 			String parts[] = FilePath.split("\\\\");
 			return parts[parts.length-1];
 		}
@@ -58,7 +58,7 @@ public class FileMethods {
 		FilePath = old + i;
 		file = new File(FilePath);
 		}
-		file.mkdir();
+		file.mkdirs();
 		String parts[] = FilePath.split("\\\\");
 		return parts[parts.length-1];
 	}
@@ -78,14 +78,14 @@ public class FileMethods {
 		FilePath = old + i;
 		file = new File(FilePath);
 		}
-		file.mkdir();
+		file.mkdirs();
 		String parts[] = FilePath.split("\\\\");
 		return parts[parts.length-1];
 	}
 	
 	private static void copyDirectory(File sourceDirectory, File destinationDirectory) throws IOException {
 	    if (!destinationDirectory.exists()) {
-	        destinationDirectory.mkdir();
+	        destinationDirectory.mkdirs();
 	    }
 	    for (String f : sourceDirectory.list()) {
 	        copyDirectoryCompatibityMode(new File(sourceDirectory, f), new File(destinationDirectory, f));
