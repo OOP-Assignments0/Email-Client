@@ -10,6 +10,8 @@ import oop.emailApp.EmailClient.model.Contact;
 import oop.emailApp.EmailClient.model.Mail;
 import oop.emailApp.EmailClient.model.RunningData;
 import oop.emailApp.EmailClient.services.filters.*;
+import oop.emailApp.EmailClient.services.sorts.ISort;
+import oop.emailApp.EmailClient.services.sorts.SortFactory;
 
 public class Method {
 
@@ -108,6 +110,28 @@ public class Method {
 			return list;
 		}
 		return filter.meetFilter(list, Word);
+	}
+	
+	public static ArrayList<Mail> Sorting(String SortType, String Useremail, String targetFolder) {
+		ISort sort = SortFactory.sortMethod( SortType);
+		ArrayList<Mail> list = new ArrayList<Mail>();
+		switch (targetFolder) {
+		case "Inbox":
+			list = dictionary.get(Useremail).getInbox();
+			break;
+		case "Draft":
+			list = dictionary.get(Useremail).getDraft();
+			break;
+		case "Trash":
+			list = dictionary.get(Useremail).getTrash();
+			break;
+		case "Send":
+			list = dictionary.get(Useremail).getSend();
+			break;
+		default:
+			return list;
+		}
+		return sort.Sort(list);
 	}
 
 	/*

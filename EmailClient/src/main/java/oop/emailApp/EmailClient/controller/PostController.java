@@ -41,4 +41,12 @@ public class PostController {
 				obj.getString("targetFolder"), obj.getString("Word"));
 		return Handle.mailListToJsonArray(list).toString();
 	}
+	
+	@GetMapping("/Sort")
+	public String sort(@RequestBody String jsonString) {
+		JSONObject obj = new JSONObject(jsonString);
+		ArrayList<Mail> list = Method.Sorting(obj.getString("SortType"), obj.getString("email"),
+				obj.getString("targetFolder"));
+		return Handle.mailListToJsonArray(list).toString();
+	}
 }
