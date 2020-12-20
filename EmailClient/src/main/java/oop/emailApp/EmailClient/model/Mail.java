@@ -15,6 +15,7 @@ public class Mail  {
 	private String attachlinks[];
 	private int priority;
     private String name;
+    private String folder;
 	
 	public void setFrom(String sender) {
 		this.from = sender;
@@ -42,6 +43,9 @@ public class Mail  {
 	}
 	public void setDate(String date) {
 		this.date = date;
+	}
+	public void setFolder(String folder) {
+		this.folder = folder;
 	}
 	
 	public String getFrom() {
@@ -71,6 +75,9 @@ public class Mail  {
 	public String getDate() {
 		return date;
 	}
+	public String getFolder() {
+		return folder;
+	}
 	public Mail copy() {
 		Mail m = new Mail();
 		m.attachments =(this.attachments);
@@ -81,6 +88,7 @@ public class Mail  {
 		m.date= this.date;
 		m.priority = this.priority;
 		m.subject  = this.subject;
+		m.folder = this.folder;
 		m.name = this.name;
 		return m ;
 	}
@@ -94,6 +102,7 @@ public class Mail  {
         jsonObject.put("name",this.name);
         jsonObject.put("date",this.date);
         jsonObject.put("body",this.body);
+        jsonObject.put("folder", this.body);
         
 		return jsonObject;
         

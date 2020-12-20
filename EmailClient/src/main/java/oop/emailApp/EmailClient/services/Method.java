@@ -184,11 +184,70 @@ public class Method {
 		mail.setName(FileMethods.CreateFolder(SendPath));
 		data.getSend().add(mail);
 		if (dictionary.containsKey(mail.getTo())) {
+			mail.setFolder("Inbox");
 			dictionary.get(mail.getTo()).getInbox().add(mail);
 		}
+		mail.setFolder("Send");
 		FileMethods.updateSend(data);
 	}
-
+	private static ArrayList<Mail> targetDelete(String targetFolder,RunningData data) {
+		if(targetFolder.equalsIgnoreCase("Inbox")) {
+			return data.getInbox();
+		}else if (targetFolder.equalsIgnoreCase("Send")) {
+			return data.getSend();
+		}else if (targetFolder.equalsIgnoreCase("Draft")) {
+			return data.getDraft();
+		}
+		return null;
+	}
+	public static void Delete(Mail mail, String Useremail, String targetFolder) {
+		if(targetFolder.equalsIgnoreCase("Trash")) {
+			removeFromTrash(mail, Useremail);
+		}
+		else {
+		RunningData data = dictionary.get(Useremail);
+		
+		String SourcePath = "Users" + "\\" + Useremail + "\\" + targetFolder+"\\" + mail.getName();
+		String TargetPath = "Users" + "\\" + Useremail + "\\" + "Trash\\" + mail.getName();
+		String name = FileMethods.checkFile(TargetPath);
+		TargetPath = "Users" + "\\" + Useremail + "\\" + "Trash\\" + name;
+		ArrayList<Mail> targetDelete = targetDelete(targetFolder, data);
+		for (int i = 0; i < targetDelete.size(); i++) {
+			if (targetDelete.get(i).getName().equalsIgnoreCase(mail.getName())) {
+				Mail m = targetDelete.get(i).copy();
+				targetDelete.remove(i);
+				m.setName(name);
+				data.getTrash().add(m);
+				break;
+			}
+		}
+		File source = new File(SourcePath);
+		File target = new File(TargetPath);
+		try {
+			FileMethods.copyDirectoryCompatibityMode(source, target);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		FileMethods.delete(source);
+		FileMethods.update(targetDelete, targetFolder, Useremail);
+		FileMethods.updateTrash(data);}
+	}
+	
+	public static void removeFromTrash(Mail mail, String Useremail) {
+		RunningData data = dictionary.get(Useremail);
+		
+		String SourcePath = "Users" + "\\" + Useremail + "\\" + "Trash"+"\\" + mail.getName();
+		for (int i = 0; i < data.getTrash().size(); i++) {
+			if (data.getTrash().get(i).getName().equalsIgnoreCase(mail.getName())) {
+				data.getTrash().remove(i);
+				break;
+			}
+		}
+		File source = new File(SourcePath);
+		FileMethods.delete(source);
+		FileMethods.updateTrash(data);
+	}
+	/*
 	public static void Delete(Mail mail) {
 		RunningData data = dictionary.get(mail.getTo());
 
@@ -215,8 +274,38 @@ public class Method {
 		FileMethods.delete(source);
 		FileMethods.updateTrash(data);
 		FileMethods.updateInbox(data);
+	}*/
+	
+	public static void Restore(Mail mail, String Useremail) {
+		RunningData data = dictionary.get(Useremail);
+		 
+		String targetFolder = mail.getFolder();
+		String SourcePath = "Users" + "\\" + Useremail + "\\" + "Trash\\" + mail.getName();
+		String TargetPath = "Users" + "\\" + Useremail + "\\" + targetFolder+"\\" + mail.getName();
+		String name = FileMethods.checkFile(TargetPath);
+		TargetPath = "Users" + "\\" + Useremail + "\\" + targetFolder+"\\"  + name;
+		ArrayList<Mail> targetDelete = targetDelete(targetFolder, data);
+		for (int i = 0; i < data.getTrash().size(); i++) {
+			if (data.getTrash().get(i).getName().equalsIgnoreCase(mail.getName())) {
+				Mail m = data.getTrash().get(i).copy();
+				data.getTrash().remove(i);
+				m.setName(name);
+				targetDelete.add(m);
+				break;
+			}
+		}
+		File source = new File(SourcePath);
+		File target = new File(TargetPath);
+		try {
+			FileMethods.copyDirectoryCompatibityMode(source, target);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		FileMethods.delete(source);
+		FileMethods.update(targetDelete, targetFolder, Useremail);
+		FileMethods.updateTrash(data);
 	}
-
+	/*
 	public static void Restore(Mail mail) {
 		RunningData data = dictionary.get(mail.getTo());
 
@@ -242,7 +331,7 @@ public class Method {
 		}
 		FileMethods.updateTrash(data);
 		FileMethods.updateInbox(data);
-	}
+	}*/
 
 	public static void Draft(Mail mail) {
 		RunningData data = dictionary.get(mail.getFrom());

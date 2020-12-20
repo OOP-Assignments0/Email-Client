@@ -10,9 +10,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 
 import org.json.*;
 
+import oop.emailApp.EmailClient.model.Mail;
 import oop.emailApp.EmailClient.model.RunningData;
 
 public class FileMethods {
@@ -220,6 +222,11 @@ public class FileMethods {
 		jsonFile(path, jsonArray);
 	}
 	
+	public static void update(ArrayList<Mail> list,String targetfolder,String Useremail) {
+		JSONArray jsonArray = Handle.mailListToJsonArray(list);
+		String path = "Users"+"\\"+Useremail+"\\"+targetfolder+"\\"+targetfolder+".json";
+		jsonFile(path, jsonArray);
+	}
 	
 	
 	public static void updateContacts(RunningData data) {

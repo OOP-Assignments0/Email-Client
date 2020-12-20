@@ -31,7 +31,8 @@ public class PostController {
 	}
 	@PostMapping("/Delete")
 	public void Delete(@RequestBody String jsonString) {
-		Method.Delete(Handle.handleJsonMail(new JSONObject(jsonString)));
+		JSONObject obj = new JSONObject(jsonString);
+		Method.Delete(Handle.handleJsonMail(obj),obj.getString("email"),obj.getString("targetFolder"));
 	}
 
 	@PostMapping("/Filter")
