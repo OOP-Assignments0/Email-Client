@@ -31,7 +31,7 @@ public class FileMethods {
 				jsonArray = new JSONArray(ReadFromFile(filePath));
 			}
 			jsonArray.put(obj);
-			FileWriter fileWriter = new FileWriter(filePath, true);
+			FileWriter fileWriter = new FileWriter(filePath, false);
 			BufferedWriter bw = new BufferedWriter(fileWriter);
 			bw.write(jsonArray.toString());
 			bw.close();
@@ -152,7 +152,7 @@ public class FileMethods {
 				f1.delete();
 				f1.createNewFile();
 			};
-			FileWriter fileWriter = new FileWriter(filePath, true);
+			FileWriter fileWriter = new FileWriter(filePath, false);
 			BufferedWriter bw = new BufferedWriter(fileWriter);
 			bw.write(jsonArray.toString());
 			bw.close();
