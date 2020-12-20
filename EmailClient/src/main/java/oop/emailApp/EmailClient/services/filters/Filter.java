@@ -1,5 +1,11 @@
 package oop.emailApp.EmailClient.services.filters;
 
-public class Filter {
+import java.util.ArrayList;
 
+import oop.emailApp.EmailClient.model.Mail;
+
+public abstract class Filter {
+	
+	public abstract ArrayList<Mail> meetFilter(ArrayList<Mail> list,String Word); 
+	
 }
