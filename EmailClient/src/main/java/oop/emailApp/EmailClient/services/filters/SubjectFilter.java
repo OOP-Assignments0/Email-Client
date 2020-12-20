@@ -30,12 +30,13 @@ public class SubjectFilter extends Filter {
 	}
 
 	protected boolean checkWord(String Subject, String Word) {
-		String[] words = Subject.split("\\s+");
+		/*String[] words = Subject.split("\\s+");
 		for (String w : words) {
 			if (w.equalsIgnoreCase(Word)) {
 				return true;
 			}
-		}
+		}*/
+		if (Subject.contains(Word)) return true;
 		return false;
 	}
 }
