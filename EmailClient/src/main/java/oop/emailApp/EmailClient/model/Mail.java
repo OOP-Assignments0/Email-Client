@@ -106,6 +106,7 @@ public class Mail  {
         
 	}
 	
+	// delete this later
 	public static void main(String[] args) {
 		Mail m = new Mail();
 		m.setAttachments(new String[]{"photo","video"});
