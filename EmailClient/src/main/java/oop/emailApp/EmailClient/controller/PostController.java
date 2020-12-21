@@ -31,7 +31,8 @@ public class PostController {
 	}
 	@PostMapping("/Delete")
 	public void Delete(@RequestBody String jsonString) {
-		Method.Delete(Handle.handleJsonMail(new JSONObject(jsonString)));
+		JSONObject obj = new JSONObject(jsonString);
+		Method.Delete(Handle.handleJsonMail(obj),obj.getString("email"),obj.getString("targetFolder"));
 	}
 
 	@PostMapping("/Filter")
@@ -39,6 +40,14 @@ public class PostController {
 		JSONObject obj = new JSONObject(jsonString);
 		ArrayList<Mail> list = Method.Filter(obj.getString("filterType"), obj.getString("email"),
 				obj.getString("targetFolder"), obj.getString("Word"));
+		return Handle.mailListToJsonArray(list).toString();
+	}
+	
+	@GetMapping("/Sort")
+	public String sort(@RequestBody String jsonString) {
+		JSONObject obj = new JSONObject(jsonString);
+		ArrayList<Mail> list = Method.Sorting(obj.getString("SortType"), obj.getString("email"),
+				obj.getString("targetFolder"));
 		return Handle.mailListToJsonArray(list).toString();
 	}
 }
