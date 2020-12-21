@@ -1,7 +1,6 @@
 package oop.emailApp.EmailClient.model;
 
-import java.util.ArrayList;
-
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 
@@ -11,8 +10,7 @@ public class Mail  {
 	private String to;
 	private String subject;
 	private String date;
-	private ArrayList<Object> attachments = new ArrayList<Object>();
-	private String attachlinks[];
+	private String[] attachments;
 	private int priority;
     private String name;
     private String folder;
@@ -29,11 +27,8 @@ public class Mail  {
 	public void setBody(String email) {
 		this.body = email;
 	}
-	public void setAttachments(ArrayList<Object> attachment) {
-		this.attachments = attachment;
-	}
-	public void setAttaclinks(String attach[]) {
-		this.attachlinks=attach;
+	public void setAttachments(String[] attachment) {
+		this.attachments = attachment.clone();
 	}
 	public void setPriority(int priority) {
 		this.priority = priority;
@@ -60,11 +55,8 @@ public class Mail  {
 	public String getBody() {
 		return body;
 	}
-	public ArrayList<Object> getAttachments() {
+	public String[] getAttachments() {
 		return attachments;
-	}
-	public String[] getAttaclinks() {
-		return attachlinks;
 	}
 	public int getPriority() {
 		return priority;
@@ -80,8 +72,7 @@ public class Mail  {
 	}
 	public Mail copy() {
 		Mail m = new Mail();
-		m.attachments =(this.attachments);
-		m.attachlinks = this.attachlinks;
+		m.attachments = this.attachments;
 		m.body = this.body;
 		m.from = this.from;
 		m.to = this.to;
@@ -95,6 +86,8 @@ public class Mail  {
 
 	public JSONObject dataToString() {
 		JSONObject jsonObject=new JSONObject();
+		JSONArray attach = new JSONArray();
+		
 		jsonObject.put("from",this.from);
         jsonObject.put("to",this.to);
         jsonObject.put("priority",this.priority);
@@ -104,8 +97,27 @@ public class Mail  {
         jsonObject.put("body",this.body);
         jsonObject.put("folder", this.body);
         
+        for(int i=0; i<attachments.length; i++)
+        	attach.put(attachments[i]);
+        
+        jsonObject.put("attachments", attach);
+        
 		return jsonObject;
         
+	}
+	
+	public static void main(String[] args) {
+		Mail m = new Mail();
+		m.setAttachments(new String[]{"photo","video"});
+		m.setBody("body of the email");
+		m.setDate("5/10/2030");
+		m.setFrom("ahmed@fray.com");
+		m.setName("hello");
+		m.setPriority(5);
+		m.setSubject("hello");
+		m.setTo("ali@fray.com");
+		System.out.print(m.dataToString().toString());
+		
 	}
 
 	}
