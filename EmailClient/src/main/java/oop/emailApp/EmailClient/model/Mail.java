@@ -1,5 +1,6 @@
 package oop.emailApp.EmailClient.model;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 
@@ -85,6 +86,7 @@ public class Mail  {
 
 	public JSONObject dataToString() {
 		JSONObject jsonObject=new JSONObject();
+		JSONArray attach = new JSONArray();
 		
 		jsonObject.put("from",this.from);
         jsonObject.put("to",this.to);
@@ -95,9 +97,27 @@ public class Mail  {
         jsonObject.put("body",this.body);
         jsonObject.put("folder", this.body);
         
+        for(int i=0; i<attachments.length; i++)
+        	attach.put(attachments[i]);
+        
+        jsonObject.put("attachments", attach);
         
 		return jsonObject;
         
+	}
+	
+	public static void main(String[] args) {
+		Mail m = new Mail();
+		m.setAttachments(new String[]{"photo","video"});
+		m.setBody("body of the email");
+		m.setDate("5/10/2030");
+		m.setFrom("ahmed@fray.com");
+		m.setName("hello");
+		m.setPriority(5);
+		m.setSubject("hello");
+		m.setTo("ali@fray.com");
+		System.out.print(m.dataToString().toString());
+		
 	}
 
 	}
