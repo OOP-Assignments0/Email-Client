@@ -19,6 +19,7 @@ import oop.emailApp.EmailClient.model.RunningData;
 import oop.emailApp.EmailClient.services.filters.*;
 import oop.emailApp.EmailClient.services.sorts.ISort;
 import oop.emailApp.EmailClient.services.sorts.SortFactory;
+import oop.emailApp.EmailClient.services.search.search;
 
 public class Method {
 
@@ -386,6 +387,12 @@ public class Method {
 		mail.setName(FileMethods.CreateFolder(DraftPath));
 		data.getDraft().add(mail);
 		FileMethods.updateDraft(data);
+	}
+	
+	public static ArrayList<Mail> search(String str, String region, String emailPart, String Useremail) {
+		RunningData data = dictionary.get(Useremail);
+		search s = new search();
+		return s.searchForString(str, region, emailPart, data);
 	}
 
 }
