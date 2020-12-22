@@ -1,5 +1,6 @@
 package oop.emailApp.EmailClient.controller;
 
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.json.JSONObject;
@@ -47,6 +48,15 @@ public class Controller {
 			return e.getMessage();
 		}
 	}
+	
+	@PostMapping("/SendAll")
+	public void uploadFiles(@ModelAttribute Mail mail) throws IOException {
+		System.out.println(mail.getFrom());
+		System.out.println(mail.getTo());
+		//Method.addMail(mail);
+		Method.saveAttachments(mail.getFile(), "C:\\test");
+	}
+	
 	@PostMapping("/Draft")
 	public String Draft(@RequestBody String jsonString) {
 		try {
