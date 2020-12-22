@@ -197,7 +197,7 @@ public class Method {
 
 	public static void Send(Mail mail) {
 		RunningData data = dictionary.get(mail.getFrom());
-
+		mail.setFolder("Inbox");
 		String InboxPath = "Users" + "\\" + mail.getTo() + "\\" + "Inbox\\" + mail.getName();
 		mail.setName(FileMethods.CreateFolder(InboxPath));
 
@@ -206,12 +206,12 @@ public class Method {
 		FileMethods.appendJsonObjectToFile(path, mail.dataToString());
 		String SendPath = "Users" + "\\" + mail.getFrom() + "\\" + "Send\\" + mail.getName();
 		mail.setName(FileMethods.CreateFolder(SendPath));
-		data.getSend().add(mail);
+		Mail m = mail.copy();
+		m.setFolder("Send");
+ 		data.getSend().add(m);
 		if (dictionary.containsKey(mail.getTo())) {
-			mail.setFolder("Inbox");
 			dictionary.get(mail.getTo()).getInbox().add(mail);
 		}
-		mail.setFolder("Send");
 		FileMethods.updateSend(data);
 	}
 	private static ArrayList<Mail> targetDelete(String targetFolder,RunningData data) {

@@ -71,9 +71,11 @@ public class Controller {
 		return Handle.mailListToJsonArray(list).toString();
 	}
 	
-	@GetMapping("/GetEmails")
+	@PostMapping("/GetEmails")
 	public String getEmails(@RequestBody String jsonString) {
+		System.out.println(jsonString);
 		JSONObject obj = new JSONObject(jsonString);
+		System.out.println(Handle.mailListToJsonArray(Method.getMails(obj.getString("email"),obj.getString("targetFolder"))).toString());
 		return Handle.mailListToJsonArray(Method.getMails(obj.getString("email"),obj.getString("targetFolder"))).toString();
 	}
 	@GetMapping("/Search")
