@@ -63,7 +63,7 @@ public class Controller {
 		Method.Delete(Handle.handleJsonMail(obj),obj.getString("email"),obj.getString("targetFolder"));
 	}
 
-	@GetMapping("/Filter")
+	@PostMapping("/Filter")
 	public String filter(@RequestBody String jsonString) {
 		JSONObject obj = new JSONObject(jsonString);
 		ArrayList<Mail> list = Method.Filter(obj.getString("filterType"), obj.getString("email"),
@@ -71,7 +71,7 @@ public class Controller {
 		return Handle.mailListToJsonArray(list).toString();
 	}
 	
-	@GetMapping("/Sort")
+	@PostMapping("/Sort")
 	public String sort(@RequestBody String jsonString) {
 		JSONObject obj = new JSONObject(jsonString);
 		ArrayList<Mail> list = Method.Sorting(obj.getString("SortType"), obj.getString("email"),
