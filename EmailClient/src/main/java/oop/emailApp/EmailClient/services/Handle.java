@@ -26,6 +26,7 @@ public class Handle {
 		m.setSubject(obj.getString("subject"));
 		m.setName(obj.getString("name"));
 		m.setDate(obj.getString("date"));
+		m.setFolder(obj.getString("folder"));
 		return m;
 	}
 
