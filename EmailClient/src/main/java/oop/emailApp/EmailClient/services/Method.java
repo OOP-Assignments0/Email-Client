@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.management.RuntimeErrorException;
+
 import oop.emailApp.EmailClient.model.Contact;
 import oop.emailApp.EmailClient.model.Mail;
 import oop.emailApp.EmailClient.model.RunningData;
@@ -54,11 +56,13 @@ public class Method {
 			}
 			dictionary.put(email, data);
 		} else {
-			System.out.println("INCORRECT USEREMAIL OR PASSWORD");
+			//System.out.println("INCORRECT USEREMAIL OR PASSWORD");
+			throw new RuntimeErrorException(null, "INCORRECT USER EMAIL OR PASSWORD");
 		}
 	}
 
 	public static void SignUp(String email, String name, String password) {
+		System.out.println("i'm in sign up");
 		RunningData data = new RunningData();
 		loadContacts(email, data);
 		if (!UserFound(email, data)) {
@@ -69,8 +73,28 @@ public class Method {
 			dictionary.put(email, data);
 		} else {
 			System.out.println("USER IS ALREADY FOUND");
-			SignIn(email, password);
+			throw new RuntimeErrorException(null, "USER IS ALREADY FOUND");
+			//SignIn(email, password);
 		}
+	}
+	
+	public static ArrayList<Mail> getMails(String Email,String targetfolder) {
+		ArrayList<Mail> newMails = new ArrayList<Mail>();
+		switch(targetfolder) {
+		case "Inbox":
+			newMails = dictionary.get(Email).getInbox();
+			break;
+		case "Send":
+			newMails = dictionary.get(Email).getSend();
+			break;
+		case "Draft":
+			newMails = dictionary.get(Email).getDraft();
+			break;
+		case "Trash":
+			newMails = dictionary.get(Email).getTrash();
+			break;
+		}
+		return newMails;
 	}
 
 	private static void loadContacts(String email, RunningData data) {
