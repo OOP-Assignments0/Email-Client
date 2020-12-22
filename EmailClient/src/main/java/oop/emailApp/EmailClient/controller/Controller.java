@@ -31,7 +31,6 @@ public class Controller {
 		try {
 			JSONObject obj = new JSONObject(jsonString);
 			Method.SignIn(obj.getString("email"), obj.getString("password"));
-			
 			return "true";
 		}catch(Exception e){
 			return e.getMessage();
@@ -40,14 +39,23 @@ public class Controller {
 
 	@PostMapping("/Send")
 	public String Send(@RequestBody String jsonString) {
-		System.out.println("send");
-		Method.Send(Handle.handleJsonMail(new JSONObject(jsonString)));
-		return "true";
-		/*try {
-			
+		try {
+			System.out.println("send");
+			Method.Send(Handle.handleJsonMail(new JSONObject(jsonString)));
+			return "true";
 		}catch(Exception e) {
 			return e.getMessage();
-		}*/
+		}
+	}
+	@PostMapping("/Draft")
+	public String Draft(@RequestBody String jsonString) {
+		try {
+			System.out.println("send");
+			Method.Draft(Handle.handleJsonMail(new JSONObject(jsonString)));
+			return "true";
+		}catch(Exception e) {
+			return e.getMessage();
+		}
 	}
 	@PostMapping("/Delete")
 	public void Delete(@RequestBody String jsonString) {
