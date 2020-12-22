@@ -3,6 +3,7 @@ package oop.emailApp.EmailClient.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 
@@ -68,9 +69,16 @@ public class Controller {
 		}
 	}
 	@PostMapping("/Delete")
-	public void Delete(@RequestBody String jsonString) {
-		JSONObject obj = new JSONObject(jsonString);
-		Method.Delete(Handle.handleJsonMail(obj),obj.getString("email"),obj.getString("targetFolder"));
+	public String Delete(@RequestBody String jsonString) {
+		try {
+			//JSONArray arr = new JSONArray(jsonString);
+			//Method.Delete(Handle.handleJsonMail(arr.getJSONObject(0)),obj.getString("email"),obj.getString("targetFolder"));
+			JSONObject obj = new JSONObject(jsonString);
+			Method.Delete(Handle.handleJsonMail(obj.getJSONObject("mail")),obj.getString("email"),obj.getString("targetFolder"));
+			return "true";
+		}catch(Exception e) {
+			return e.getMessage();
+		}
 	}
 
 	@PostMapping("/Filter")
