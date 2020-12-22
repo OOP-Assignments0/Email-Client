@@ -2,11 +2,16 @@ package oop.emailApp.EmailClient.services;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.management.RuntimeErrorException;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import oop.emailApp.EmailClient.model.Contact;
 import oop.emailApp.EmailClient.model.Mail;
@@ -195,6 +200,24 @@ public class Method {
 		return User;
 	}
 
+	public static void addMail(Mail m) throws IOException {
+		// create folder and get its pass
+		String path = "C:\\test";
+		// put attachments in that pass
+		saveAttachments(m.getFile(), path);
+		// clear file from Mail
+		m.setFile(null);
+		// use function send
+		Send(m);
+	}
+	
+	private static Path root = null;
+	public static void saveAttachments(MultipartFile[] file, String path) throws IOException {
+		root = Paths.get(path);
+		for(int i=0; i<file.length; i++)
+			Files.copy(file[i].getInputStream(), Method.root.resolve(file[i].getOriginalFilename()));
+	}
+	
 	public static void Send(Mail mail) {
 		RunningData data = dictionary.get(mail.getFrom());
 		mail.setFolder("Inbox");
