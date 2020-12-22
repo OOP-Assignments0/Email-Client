@@ -71,10 +71,27 @@ public class Controller {
 	@PostMapping("/Delete")
 	public String Delete(@RequestBody String jsonString) {
 		try {
-			//JSONArray arr = new JSONArray(jsonString);
-			//Method.Delete(Handle.handleJsonMail(arr.getJSONObject(0)),obj.getString("email"),obj.getString("targetFolder"));
-			JSONObject obj = new JSONObject(jsonString);
-			Method.Delete(Handle.handleJsonMail(obj.getJSONObject("mail")),obj.getString("email"),obj.getString("targetFolder"));
+			JSONArray arr = new JSONArray(jsonString);
+			/*System.out.println("\n\n\n"+arr.getJSONObject(0).getJSONObject("mail"));
+
+			System.out.println(arr.getJSONObject(1).getString("email"));
+			System.out.println(arr.getJSONObject(2).getString("targetFolder"));*/
+			Method.Delete(Handle.handleJsonMail(arr.getJSONObject(0).getJSONObject("mail")),arr.getJSONObject(1).getString("email"),arr.getJSONObject(2).getString("targetFolder"));
+			/*JSONObject obj = new JSONObject(jsonString);
+			System.out.println("\n\n\n"+obj.getJSONObject("mail").toString());
+			System.out.println(obj.getString("email"));
+			System.out.println(obj.getString("targetFolder"));
+			Method.Delete(Handle.handleJsonMail(obj.getJSONObject("mail")),obj.getString("email"),obj.getString("targetFolder"));*/
+			return "true";
+		}catch(Exception e) {
+			return e.getMessage();
+		}
+	}
+	@PostMapping("/Restore")
+	public String Restore(@RequestBody String jsonString) {
+		try {
+			JSONArray arr = new JSONArray(jsonString);
+			Method.Restore(Handle.handleJsonMail(arr.getJSONObject(0).getJSONObject("mail")),arr.getJSONObject(1).getString("email"));
 			return "true";
 		}catch(Exception e) {
 			return e.getMessage();
@@ -104,9 +121,13 @@ public class Controller {
 		System.out.println(Handle.mailListToJsonArray(Method.getMails(obj.getString("email"),obj.getString("targetFolder"))).toString());
 		return Handle.mailListToJsonArray(Method.getMails(obj.getString("email"),obj.getString("targetFolder"))).toString();
 	}
+	
+	
+	
 	@GetMapping("/Search")
 	public String Search(@RequestBody String jsonString) {
-
-		return "true";
+		JSONObject obj = new JSONObject(jsonString);
+		 ArrayList<Mail> result = Method.search(obj.getString("str"), obj.getString("region"), obj.getString("emailPart"), obj.getString("Useremail"));
+		return Handle.mailListToJsonArray(result).toString();
 	}
 }
