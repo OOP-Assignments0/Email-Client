@@ -2,6 +2,7 @@ package oop.emailApp.EmailClient.model;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.web.multipart.MultipartFile;
 
 
 public class Mail  {
@@ -11,6 +12,7 @@ public class Mail  {
 	private String subject;
 	private String date;
 	private String[] attachments;
+	private MultipartFile[] file;
 	private int priority;
     private String name;
     private String folder;
@@ -42,7 +44,12 @@ public class Mail  {
 	public void setFolder(String folder) {
 		this.folder = folder;
 	}
-	
+	public MultipartFile[] getFile() {
+		return file;
+	}
+	public void setFile(MultipartFile[] file) {
+		this.file = file;
+	}
 	public String getFrom() {
 		return from;
 	}
@@ -95,12 +102,12 @@ public class Mail  {
         jsonObject.put("name",this.name);
         jsonObject.put("date",this.date);
         jsonObject.put("body",this.body);
-        jsonObject.put("folder", this.folder);
+        jsonObject.put("folder", this.body);
         
-        /*for(int i=0; i<attachments.length; i++)
+        for(int i=0; i<attachments.length; i++)
         	attach.put(attachments[i]);
         
-        jsonObject.put("attachments", attach);*/
+        jsonObject.put("attachments", attach);
         
 		return jsonObject;
         
