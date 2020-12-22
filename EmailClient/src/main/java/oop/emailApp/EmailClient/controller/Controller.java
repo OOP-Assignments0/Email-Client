@@ -3,6 +3,7 @@ package oop.emailApp.EmailClient.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 
