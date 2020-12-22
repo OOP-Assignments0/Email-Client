@@ -95,12 +95,12 @@ public class Mail  {
         jsonObject.put("name",this.name);
         jsonObject.put("date",this.date);
         jsonObject.put("body",this.body);
-        jsonObject.put("folder", this.body);
+        jsonObject.put("folder", this.folder);
         
-        for(int i=0; i<attachments.length; i++)
+        /*for(int i=0; i<attachments.length; i++)
         	attach.put(attachments[i]);
         
-        jsonObject.put("attachments", attach);
+        jsonObject.put("attachments", attach);*/
         
 		return jsonObject;
         
