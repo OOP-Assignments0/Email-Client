@@ -19,6 +19,7 @@ public class SortSender implements ISort{
 				return MailSender1.compareTo(MailSender2);
 			}
 		});
+		Collections.reverse(Sorted);
 		return Sorted;
 	}
 

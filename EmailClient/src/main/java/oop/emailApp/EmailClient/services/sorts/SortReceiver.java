@@ -19,6 +19,7 @@ public class SortReceiver implements ISort{
 				return MailReceiver1.compareTo(MailReceiver2);
 			}
 		});
+		Collections.reverse(Sorted);
 		return Sorted;
 	}
 

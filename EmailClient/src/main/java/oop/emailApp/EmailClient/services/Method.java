@@ -2,7 +2,12 @@ package oop.emailApp.EmailClient.services;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -195,9 +200,24 @@ public class Method {
 		return User;
 	}
 
-	public static void Send(Mail mail) {
+	public static void Send(Mail mail) {	
 		RunningData data = dictionary.get(mail.getFrom());
+		loadContacts(mail.getFrom(), data);
+		boolean enter = false;
+		for(int i = 0 ; i < data.getContacts().size() ; i++) {
+			if(data.getContacts().get(i).getEmail().equalsIgnoreCase(mail.getTo())) {
+				enter = true;
+			}
+		}
+		if(enter) {
+			if (mail.getTo().equalsIgnoreCase(mail.getFrom())) {
+				throw new RuntimeException("Send to yourself");
+			}
+		
 		mail.setFolder("Inbox");
+		SimpleDateFormat format = new SimpleDateFormat("dd:MM:yyyy HH:mm:ss"); 
+		LocalDateTime now = LocalDateTime.now();
+		mail.setDate(format.format(now));
 		String InboxPath = "Users" + "\\" + mail.getTo() + "\\" + "Inbox\\" + mail.getName();
 		mail.setName(FileMethods.CreateFolder(InboxPath));
 
@@ -212,7 +232,10 @@ public class Method {
 		if (dictionary.containsKey(mail.getTo())) {
 			dictionary.get(mail.getTo()).getInbox().add(mail);
 		}
-		FileMethods.updateSend(data);
+		FileMethods.updateSend(data);}
+		else {
+			throw new RuntimeException("Invalid Receiver");
+		}
 	}
 	private static ArrayList<Mail> targetDelete(String targetFolder,RunningData data) {
 		if(targetFolder.equalsIgnoreCase("Inbox")) {
