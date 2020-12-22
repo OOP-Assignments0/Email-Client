@@ -254,7 +254,6 @@ public class Method {
 		}
 		else {
 		RunningData data = dictionary.get(Useremail);
-		
 		String SourcePath = "Users" + "\\" + Useremail + "\\" + targetFolder+"\\" + mail.getName();
 		String TargetPath = "Users" + "\\" + Useremail + "\\" + "Trash\\" + mail.getName();
 		String name = FileMethods.checkFile(TargetPath);
