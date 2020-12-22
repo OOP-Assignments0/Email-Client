@@ -3,7 +3,6 @@ package oop.emailApp.EmailClient.controller;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.web.bind.annotation.*;
 
@@ -106,7 +105,8 @@ public class Controller {
 	}
 	@GetMapping("/Search")
 	public String Search(@RequestBody String jsonString) {
-
-		return "true";
+		JSONObject obj = new JSONObject(jsonString);
+		 ArrayList<Mail> result = Method.search(obj.getString("str"), obj.getString("region"), obj.getString("emailPart"), obj.getString("Useremail"));
+		return Handle.mailListToJsonArray(result).toString();
 	}
 }
