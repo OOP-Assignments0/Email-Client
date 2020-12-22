@@ -104,10 +104,10 @@ public class Mail  {
         jsonObject.put("body",this.body);
         jsonObject.put("folder", this.body);
         
-        for(int i=0; i<attachments.length; i++)
+        /*for(int i=0; i<attachments.length; i++)
         	attach.put(attachments[i]);
         
-        jsonObject.put("attachments", attach);
+        jsonObject.put("attachments", attach);*/
         
 		return jsonObject;
         
