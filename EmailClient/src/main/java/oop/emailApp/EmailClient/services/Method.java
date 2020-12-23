@@ -77,7 +77,7 @@ public class Method {
 			Contact c = new Contact(email, name, password);
 			Contact.getContacts().add(c);
 			data.setCurrentContact(c);
-			FileMethods.updateContacts(data);
+			FileMethods.updateContacts();
 			dictionary.put(email, data);
 		} else {
 			System.out.println("USER IS ALREADY FOUND");
