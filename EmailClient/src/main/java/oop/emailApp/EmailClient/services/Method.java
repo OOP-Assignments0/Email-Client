@@ -3,11 +3,11 @@ package oop.emailApp.EmailClient.services;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -238,8 +238,8 @@ public class Method {
 		
 		mail.setFolder("Inbox");
 		SimpleDateFormat format = new SimpleDateFormat("dd:MM:yyyy HH:mm:ss"); 
-		Date date = new Date(); 
-		mail.setDate(format.format(date));
+		LocalDateTime now = LocalDateTime.now();
+		mail.setDate(format.format(now));
 		String InboxPath = "Users" + "\\" + mail.getTo() + "\\" + "Inbox\\" + mail.getName();
 		mail.setName(FileMethods.CreateFolder(InboxPath));
 
