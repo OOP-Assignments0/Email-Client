@@ -14,32 +14,34 @@ public class searchRegion {
 		String str, RunningData data, boolean inbox, boolean trash, boolean draft, boolean send,
 		boolean from, boolean to, boolean subject, boolean body, boolean attachments
 			) {
-		
 		result = new ArrayList<>();
 		found = false;
 		
 		if(inbox)
-			found = searchInList(str, data.getInbox(), from,to,subject,body,attachments);
+			searchInList(str, data.getInbox(), from,to,subject,body,attachments);
 		if(trash & !found)
-			found = searchInList(str, data.getTrash(), from,to,subject,body,attachments);
+			searchInList(str, data.getTrash(), from,to,subject,body,attachments);
 		if(draft & !found)
-			found = searchInList(str, data.getDraft(), from,to,subject,body,attachments);
+			searchInList(str, data.getDraft(), from,to,subject,body,attachments);
 		if(send & !found)
-			found = searchInList(str, data.getSend(), from,to,subject,body,attachments);
-		if(!found)
+			searchInList(str, data.getSend(), from,to,subject,body,attachments);
+		if(!found) {
+			System.out.println("\n\nnot found\n\n");
 			return null;
+		}
 		return result;
 	}
 	
-	private boolean searchInList(String str, ArrayList<Mail> list,
+	private void searchInList(String str, ArrayList<Mail> list,
 			boolean from, boolean to, boolean subject, boolean body, boolean attachments
 			) {
 		searchEmail se = new searchEmail();
 		for(int i=0; i<list.size(); i++) {
-			if(se.search(str, list.get(i), from, to, subject, body, attachments))
-				result.add(list.get(i));
+			if(se.search(str, list.get(i), from, to, subject, body, attachments)) {
+				found = true;
+				result.add(list.get(i).copy());
+			}
 		}
-		return false;
 	}
 	
 	
