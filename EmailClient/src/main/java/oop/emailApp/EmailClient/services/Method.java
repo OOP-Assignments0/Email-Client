@@ -462,6 +462,9 @@ public class Method {
 		String DraftPath = "Users" + "\\" + mail.getFrom() + "\\" + "Draft\\" + mail.getName();
 		mail.setName(FileMethods.CreateFolder(DraftPath));
 		mail.setFolder("Draft");
+		SimpleDateFormat format = new SimpleDateFormat("dd:MM:yyyy HH:mm:ss"); 
+		Date date = new  Date();
+		mail.setDate(format.format(date));
 		data.getDraft().add(mail);
 		FileMethods.updateDraft(data);
 	}
