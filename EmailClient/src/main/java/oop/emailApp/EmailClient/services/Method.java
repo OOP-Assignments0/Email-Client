@@ -461,6 +461,7 @@ public class Method {
 		RunningData data = dictionary.get(mail.getFrom());
 		String DraftPath = "Users" + "\\" + mail.getFrom() + "\\" + "Draft\\" + mail.getName();
 		mail.setName(FileMethods.CreateFolder(DraftPath));
+		mail.setFolder("Draft");
 		data.getDraft().add(mail);
 		FileMethods.updateDraft(data);
 	}
