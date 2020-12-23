@@ -121,6 +121,22 @@ public class Method {
 		}
 		return User;
 	}
+	
+	///delete current contact 
+	public static boolean SetCurrentUser(String email, String password, RunningData data) {
+		boolean User = false;
+		ArrayList<Contact> contacts = Contact.getContacts();
+		for (int i = 0; i < contacts.size(); i++) {
+			if (contacts.get(i).getEmail().equalsIgnoreCase(email)) {
+				if (contacts.get(i).getPassword().equalsIgnoreCase(password)) {
+					data.setCurrentContact(contacts.get(i));
+					User = true;
+					break;
+				}
+			}
+		}
+		return User;
+	}
 
 	public static ArrayList<Mail> Filter(String filterType, String Useremail, String targetFolder, String Word) {
 		Filter filter = FilterFactory.filterMethod(filterType);
@@ -165,6 +181,7 @@ public class Method {
 		}
 		return sort.Sort(list);
 	}
+	
 
 	/*
 	 * public void loadInbox(String email) { String FileContent =
@@ -187,22 +204,6 @@ public class Method {
 	 * ((!FileContent.equalsIgnoreCase("")) && FileContent != null) {
 	 * this.data.setTrash(Handle.loadMailsToList(FileContent)); } }
 	 */
-
-	public static boolean SetCurrentUser(String email, String password, RunningData data) {
-		boolean User = false;
-		ArrayList<Contact> contacts = Contact.getContacts();
-		for (int i = 0; i < contacts.size(); i++) {
-			if (contacts.get(i).getEmail().equalsIgnoreCase(email)) {
-				if (contacts.get(i).getPassword().equalsIgnoreCase(password)) {
-					data.setCurrentContact(contacts.get(i));
-					User = true;
-					break;
-				}
-			}
-		}
-		return User;
-	}
-
 
 	public static void addMail(Mail m) throws IOException {
 		// create folder and get its pass
