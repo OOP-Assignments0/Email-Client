@@ -26,7 +26,6 @@ public class searchRegion {
 		if(send & !found)
 			searchInList(str, data.getSend(), from,to,subject,body,attachments);
 		if(!found) {
-			System.out.println("\n\nnot found\n\n");
 			return null;
 		}
 		return result;
