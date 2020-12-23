@@ -9,10 +9,10 @@ public class search {
 	public ArrayList<Mail> searchForString(String str, String region, String emailPart, RunningData data) {
 		boolean inbox = false, trash = false, draft=false, send=false;
 		switch(region) {
-			case "inbox": inbox = true; break;
-			case "trash": trash = true; break;
-			case "draft": draft = true; break;
-			case "send": send = true; break;
+			case "Inbox": inbox = true; break;
+			case "Trash": trash = true; break;
+			case "Draft": draft = true; break;
+			case "Send": send = true; break;
 			case "all":
 				inbox=true; trash=true; draft=true; send=true;
 		}
