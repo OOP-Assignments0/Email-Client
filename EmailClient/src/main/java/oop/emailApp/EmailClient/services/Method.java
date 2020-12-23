@@ -2,6 +2,8 @@ package oop.emailApp.EmailClient.services;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -19,6 +21,7 @@ import oop.emailApp.EmailClient.model.RunningData;
 import oop.emailApp.EmailClient.services.filters.*;
 import oop.emailApp.EmailClient.services.sorts.ISort;
 import oop.emailApp.EmailClient.services.sorts.SortFactory;
+import oop.emailApp.EmailClient.services.search.search;
 
 public class Method {
 
@@ -200,6 +203,7 @@ public class Method {
 		return User;
 	}
 
+
 	public static void addMail(Mail m) throws IOException {
 		// create folder and get its pass
 		String path = "C:\\test";
@@ -220,7 +224,22 @@ public class Method {
 	
 	public static void Send(Mail mail) {
 		RunningData data = dictionary.get(mail.getFrom());
+		loadContacts(mail.getFrom(), data);
+		boolean enter = false;
+		for(int i = 0 ; i < data.getContacts().size() ; i++) {
+			if(data.getContacts().get(i).getEmail().equalsIgnoreCase(mail.getTo())) {
+				enter = true;
+			}
+		}
+		if(enter) {
+			if (mail.getTo().equalsIgnoreCase(mail.getFrom())) {
+				throw new RuntimeException("Send to yourself");
+			}
+		
 		mail.setFolder("Inbox");
+		SimpleDateFormat format = new SimpleDateFormat("dd:MM:yyyy HH:mm:ss"); 
+		LocalDateTime now = LocalDateTime.now();
+		mail.setDate(format.format(now));
 		String InboxPath = "Users" + "\\" + mail.getTo() + "\\" + "Inbox\\" + mail.getName();
 		mail.setName(FileMethods.CreateFolder(InboxPath));
 
@@ -235,7 +254,10 @@ public class Method {
 		if (dictionary.containsKey(mail.getTo())) {
 			dictionary.get(mail.getTo()).getInbox().add(mail);
 		}
-		FileMethods.updateSend(data);
+		FileMethods.updateSend(data);}
+		else {
+			throw new RuntimeException("Invalid Receiver");
+		}
 	}
 	
 	private static ArrayList<Mail> targetDelete(String targetFolder,RunningData data) {
@@ -386,6 +408,12 @@ public class Method {
 		mail.setName(FileMethods.CreateFolder(DraftPath));
 		data.getDraft().add(mail);
 		FileMethods.updateDraft(data);
+	}
+	
+	public static ArrayList<Mail> search(String str, String region, String emailPart, String Useremail) {
+		RunningData data = dictionary.get(Useremail);
+		search s = new search();
+		return s.searchForString(str, region, emailPart, data);
 	}
 
 }

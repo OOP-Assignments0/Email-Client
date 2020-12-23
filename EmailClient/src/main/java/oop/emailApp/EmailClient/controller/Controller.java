@@ -124,9 +124,10 @@ public class Controller {
 	
 	
 	
-	@GetMapping("/Search")
+	@PostMapping("/Search")
 	public String Search(@RequestBody String jsonString) {
-
-		return "true";
+		JSONObject obj = new JSONObject(jsonString);
+		 ArrayList<Mail> result = Method.search(obj.getString("str"), obj.getString("region"), obj.getString("emailPart"), obj.getString("Useremail"));
+		return Handle.mailListToJsonArray(result).toString();
 	}
 }

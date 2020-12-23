@@ -19,6 +19,7 @@ public class BodySort implements ISort{
 				return MailBody1.compareTo(MailBody2);
 			}
 		});
+		Collections.reverse(Sorted);
 		return Sorted;
 	}
 

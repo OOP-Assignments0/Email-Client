@@ -19,6 +19,7 @@ public class SortSubject implements ISort{
 				return MailSubject1.compareTo(MailSubject2);
 			}
 		});
+		Collections.reverse(Sorted);
 		return Sorted;
 	}
 
