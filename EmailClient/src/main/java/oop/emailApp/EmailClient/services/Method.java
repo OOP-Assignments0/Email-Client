@@ -36,7 +36,6 @@ public class Method {
 
 	public static void SignIn(String email, String password) {
 		RunningData data = new RunningData();
-		loadContacts();
 		if (SetCurrentUser(email, password, data)) {
 			String FileContent = FileMethods.ReadFromFile("Users\\" + email + "\\Inbox\\Inbox.json");
 			if ((!FileContent.equalsIgnoreCase("")) && FileContent != null) {
@@ -72,7 +71,6 @@ public class Method {
 	public static void SignUp(String email, String name, String password) {
 		System.out.println("i'm in sign up");
 		RunningData data = new RunningData();
-		loadContacts();
 		if (!UserFound(email)) {
 			Contact c = new Contact(email, name, password);
 			Contact.getContacts().add(c);
@@ -105,7 +103,7 @@ public class Method {
 		return newMails;
 	}
 
-	private static void loadContacts() {
+	public static void loadContacts() {
 		String FileContent = FileMethods.ReadFromFile("Users\\Contacts.json");
 		Contact.setContacts(Handle.loadContactsToList(FileContent));
 	}
