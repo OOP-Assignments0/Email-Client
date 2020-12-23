@@ -171,6 +171,16 @@ public class Method {
 		return dictionary.get(Useremail).getFriends();
 	}
 	
+	public static Contact getContact(String Useremail) {
+		Contact c = new Contact();
+		for (int i = 0 ; i <Contact.getContacts().size();i++) {
+			if (Contact.getContacts().get(i).getEmail().equalsIgnoreCase(Useremail)) {
+				c = Contact.getContacts().get(i);
+			}
+		}
+		return c;
+	}
+	
 	public static void ModifyContact(String Email,String UserName,String Password) {
 		ArrayList<Contact> contacts = Contact.getContacts();
 		for (int i = 0; i < contacts.size(); i++) {

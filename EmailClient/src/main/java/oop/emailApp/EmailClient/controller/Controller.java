@@ -123,7 +123,6 @@ public class Controller {
 	}
 	
 	
-	
 	@PostMapping("/Search")
 	public String Search(@RequestBody String jsonString) {
 		JSONObject obj = new JSONObject(jsonString);
@@ -155,9 +154,15 @@ public class Controller {
 	
 	@PostMapping("/GetFriends")
 	public String GetFriends(@RequestBody String jsonString) {
-		System.out.println(jsonString);
+		//System.out.println(jsonString);
 		JSONObject obj = new JSONObject(jsonString);
 		return Handle.ContactListToJsonArray(Method.getFriends(obj.getString("email"))).toString();
+	}
+	
+	@PostMapping("/GetContact")
+	public String GetContact(@RequestBody String jsonString) {
+		JSONObject obj = new JSONObject(jsonString);
+		return Method.getContact(obj.getString("email")).ContactTOJsonObject().toString();
 	}
 	
 	@PostMapping("/ModifyContact")
