@@ -237,6 +237,7 @@ public class Method {
 		}
 		FileMethods.updateSend(data);
 	}
+	
 	private static ArrayList<Mail> targetDelete(String targetFolder,RunningData data) {
 		if(targetFolder.equalsIgnoreCase("Inbox")) {
 			return data.getInbox();
