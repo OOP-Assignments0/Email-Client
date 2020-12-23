@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import org.json.*;
 
+import oop.emailApp.EmailClient.model.Contact;
 import oop.emailApp.EmailClient.model.Mail;
 import oop.emailApp.EmailClient.model.RunningData;
 
@@ -229,10 +230,10 @@ public class FileMethods {
 	}
 	
 	
-	public static void updateContacts(RunningData data) {
+	public static void updateContacts() {
 		JSONArray jsonArray= new JSONArray();
-		for(int i = 0 ; i < data.getContacts().size() ; i++) {
-			jsonArray.put(data.getContacts().get(i).ContactTOJsonObject());
+		for(int i = 0 ; i < Contact.getContacts().size() ; i++) {
+			jsonArray.put(Contact.getContacts().get(i).ContactTOJsonObject());
 		}
 		jsonFile("Users\\Contacts.json", jsonArray);
 	}

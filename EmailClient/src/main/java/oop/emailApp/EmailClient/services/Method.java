@@ -36,7 +36,7 @@ public class Method {
 
 	public static void SignIn(String email, String password) {
 		RunningData data = new RunningData();
-		loadContacts(email, data);
+		loadContacts();
 		if (SetCurrentUser(email, password, data)) {
 			String FileContent = FileMethods.ReadFromFile("Users\\" + email + "\\Inbox\\Inbox.json");
 			if ((!FileContent.equalsIgnoreCase("")) && FileContent != null) {
@@ -72,10 +72,10 @@ public class Method {
 	public static void SignUp(String email, String name, String password) {
 		System.out.println("i'm in sign up");
 		RunningData data = new RunningData();
-		loadContacts(email, data);
-		if (!UserFound(email, data)) {
+		loadContacts();
+		if (!UserFound(email)) {
 			Contact c = new Contact(email, name, password);
-			data.getContacts().add(c);
+			Contact.getContacts().add(c);
 			data.setCurrentContact(c);
 			FileMethods.updateContacts(data);
 			dictionary.put(email, data);
@@ -105,14 +105,14 @@ public class Method {
 		return newMails;
 	}
 
-	private static void loadContacts(String email, RunningData data) {
+	private static void loadContacts() {
 		String FileContent = FileMethods.ReadFromFile("Users\\Contacts.json");
-		data.setContacts(Handle.loadContactsToList(FileContent));
+		Contact.setContacts(Handle.loadContactsToList(FileContent));
 	}
 
-	public static boolean UserFound(String email, RunningData data) {
+	public static boolean UserFound(String email) {
 		boolean User = false;
-		ArrayList<Contact> contacts = data.getContacts();
+		ArrayList<Contact> contacts = Contact.getContacts();
 		for (int i = 0; i < contacts.size(); i++) {
 			if (contacts.get(i).getEmail().equalsIgnoreCase(email)) {
 				User = true;
@@ -190,7 +190,7 @@ public class Method {
 
 	public static boolean SetCurrentUser(String email, String password, RunningData data) {
 		boolean User = false;
-		ArrayList<Contact> contacts = data.getContacts();
+		ArrayList<Contact> contacts = Contact.getContacts();
 		for (int i = 0; i < contacts.size(); i++) {
 			if (contacts.get(i).getEmail().equalsIgnoreCase(email)) {
 				if (contacts.get(i).getPassword().equalsIgnoreCase(password)) {
@@ -224,14 +224,13 @@ public class Method {
 	
 	public static void Send(Mail mail) {
 		RunningData data = dictionary.get(mail.getFrom());
-		loadContacts(mail.getFrom(), data);
-		boolean enter = false;
-		for(int i = 0 ; i < data.getContacts().size() ; i++) {
-			if(data.getContacts().get(i).getEmail().equalsIgnoreCase(mail.getTo())) {
+		/*boolean enter = false;
+		for(int i = 0 ; i < Contact.getContacts().size() ; i++) {
+			if(Contact.getContacts().get(i).getEmail().equalsIgnoreCase(mail.getTo())) {
 				enter = true;
 			}
-		}
-		if(enter) {
+		}*/
+		if(UserFound(mail.getTo())) {
 			if (mail.getTo().equalsIgnoreCase(mail.getFrom())) {
 				throw new RuntimeException("Send to yourself");
 			}
