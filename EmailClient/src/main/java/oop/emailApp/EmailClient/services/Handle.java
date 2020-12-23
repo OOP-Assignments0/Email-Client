@@ -66,6 +66,7 @@ public class Handle {
 		return arrayList;
 	}
 	
+	
 	public static JSONArray mailListToJsonArray (ArrayList<Mail> list) {
 		JSONArray jsonArray=new JSONArray();
 		if(list == null)

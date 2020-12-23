@@ -61,6 +61,13 @@ public class Method {
 			} else {
 				data.getTrash().clear();
 			}
+			FileContent = FileMethods.ReadFromFile("Users\\" + email + "\\Friends.json");
+			if ((!FileContent.equalsIgnoreCase("")) && FileContent != null) {
+				data.setFriends(Handle.loadContactsToList(FileContent));
+			} else {
+				data.getFriends().clear();
+			}
+			
 			dictionary.put(email, data);
 		} else {
 			//System.out.println("INCORRECT USEREMAIL OR PASSWORD");
@@ -75,10 +82,10 @@ public class Method {
 			Contact c = new Contact(email, name, password);
 			Contact.getContacts().add(c);
 			data.setCurrentContact(c);
-			FileMethods.updateContacts();
+			FileMethods.updateFileContentWithContactsList("Users\\Contacts.json",Contact.getContacts());
 			dictionary.put(email, data);
 		} else {
-			System.out.println("USER IS ALREADY FOUND");
+			//System.out.println("USER IS ALREADY FOUND");
 			throw new RuntimeErrorException(null, "USER IS ALREADY FOUND");
 			//SignIn(email, password);
 		}
@@ -134,6 +141,19 @@ public class Method {
 			}
 		}
 		return User;
+	}
+	
+	public static void AddFriend(String Useremail,String FriendEmail) {
+		if (!UserFound(FriendEmail)) {
+			throw new RuntimeErrorException(null, "INVALID FRIEND EMAIL");
+		}
+		ArrayList<Contact> contacts = Contact.getContacts();
+		for (int i = 0; i < contacts.size(); i++) {
+			if (contacts.get(i).getEmail().equalsIgnoreCase(FriendEmail)) {
+				dictionary.get(Useremail).getFriends().add(contacts.get(i));
+				FileMethods.updateFileContentWithContactsList("Users\\" + Useremail + "\\Friends.json", dictionary.get(Useremail).getFriends());
+			}
+		}
 	}
 
 	public static ArrayList<Mail> Filter(String filterType, String Useremail, String targetFolder, String Word) {

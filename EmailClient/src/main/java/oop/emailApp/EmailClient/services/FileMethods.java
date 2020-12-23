@@ -230,12 +230,20 @@ public class FileMethods {
 	}
 	
 	
-	public static void updateContacts() {
+	/*public static void updateContacts() {
 		JSONArray jsonArray= new JSONArray();
 		for(int i = 0 ; i < Contact.getContacts().size() ; i++) {
 			jsonArray.put(Contact.getContacts().get(i).ContactTOJsonObject());
 		}
 		jsonFile("Users\\Contacts.json", jsonArray);
+	}*/
+	
+	public static void updateFileContentWithContactsList(String path,ArrayList<Contact> contacts) {
+		JSONArray jsonArray= new JSONArray();
+		for(int i = 0 ; i < contacts.size() ; i++) {
+			jsonArray.put(contacts.get(i).ContactTOJsonObject());
+		}
+		jsonFile(path, jsonArray);
 	}
 
 }
