@@ -155,6 +155,33 @@ public class Method {
 			}
 		}
 	}
+	
+	public static void DeleteFriend(String Useremail,String FriendEmail) {
+		ArrayList<Contact> UserFriends = dictionary.get(Useremail).getFriends();
+		for (int i = 0; i < UserFriends.size(); i++) {
+			if (UserFriends.get(i).getEmail().equalsIgnoreCase(FriendEmail)) {
+				UserFriends.remove(i);
+				FileMethods.updateFileContentWithContactsList("Users\\" + Useremail + "\\Friends.json", UserFriends);
+			}
+		}
+	}
+	
+	
+	public static ArrayList<Contact> getFriends(String Useremail) {
+		return dictionary.get(Useremail).getFriends();
+	}
+	
+	public static void ModifyContact(String Email,String UserName,String Password) {
+		ArrayList<Contact> contacts = Contact.getContacts();
+		for (int i = 0; i < contacts.size(); i++) {
+			if (contacts.get(i).getEmail().equalsIgnoreCase(Email)) {
+				contacts.get(i).setName(UserName);
+				contacts.get(i).setPassword(Password);
+				FileMethods.updateFileContentWithContactsList("Users\\Contacts.json",Contact.getContacts());
+			}
+		}
+	}
+	
 
 	public static ArrayList<Mail> Filter(String filterType, String Useremail, String targetFolder, String Word) {
 		Filter filter = FilterFactory.filterMethod(filterType);

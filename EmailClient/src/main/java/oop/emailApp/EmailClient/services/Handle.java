@@ -76,5 +76,15 @@ public class Handle {
 		}
 		return jsonArray;
 	}
+	
+	public static JSONArray ContactListToJsonArray (ArrayList<Contact> list) {
+		JSONArray jsonArray=new JSONArray();
+		if(list == null)
+			return jsonArray.put("");
+		for(int i = 0 ; i < list.size() ; i++) {
+			jsonArray.put(list.get(i).ContactTOJsonObject());
+		}
+		return jsonArray;
+	}
 
 }
