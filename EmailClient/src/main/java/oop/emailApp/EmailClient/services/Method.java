@@ -267,7 +267,7 @@ public class Method {
 	
 	private static Path root = null;
 	public static void saveAttachments(MultipartFile[] file, String path) throws IOException {
-		if(file.length == 0)
+		if(file == null || file.length == 0)
 			return;
 		root = Paths.get(path);
 		for(int i=0; i<file.length; i++)
