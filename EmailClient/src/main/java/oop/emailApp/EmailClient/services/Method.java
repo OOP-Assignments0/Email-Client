@@ -147,6 +147,11 @@ public class Method {
 		if (!UserFound(FriendEmail)) {
 			throw new RuntimeErrorException(null, "INVALID FRIEND EMAIL");
 		}
+		for (int i  = 0 ;i < dictionary.get(Useremail).getFriends().size();i++) {
+			if (dictionary.get(Useremail).getFriends().get(i).getEmail().equalsIgnoreCase(FriendEmail)) {
+				throw new RuntimeErrorException(null, "REPEATED FRIEND");
+			}
+		}
 		ArrayList<Contact> contacts = Contact.getContacts();
 		for (int i = 0; i < contacts.size(); i++) {
 			if (contacts.get(i).getEmail().equalsIgnoreCase(FriendEmail)) {
