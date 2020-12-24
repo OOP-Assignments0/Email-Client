@@ -11,9 +11,9 @@ public class Handle {
 
 	public static Contact handleJsonContact(JSONObject obj) {
 		Contact c = new Contact();
-		c.setEmail((String) obj.get("email"));
-		c.setName((String) obj.get("name"));
-		c.setPassword((String) obj.get("password"));
+		c.setEmail((String) obj.getString("email"));
+		c.setName((String) obj.getString("name"));
+		c.setPassword(obj.getString("password"));
 		return c;
 	}
 
@@ -66,12 +66,23 @@ public class Handle {
 		return arrayList;
 	}
 	
+	
 	public static JSONArray mailListToJsonArray (ArrayList<Mail> list) {
 		JSONArray jsonArray=new JSONArray();
 		if(list == null)
 			return jsonArray.put("");
 		for(int i = 0 ; i < list.size() ; i++) {
 			jsonArray.put(list.get(i).dataToString());
+		}
+		return jsonArray;
+	}
+	
+	public static JSONArray ContactListToJsonArray (ArrayList<Contact> list) {
+		JSONArray jsonArray=new JSONArray();
+		if(list == null)
+			return jsonArray.put("");
+		for(int i = 0 ; i < list.size() ; i++) {
+			jsonArray.put(list.get(i).ContactTOJsonObject());
 		}
 		return jsonArray;
 	}
