@@ -39,8 +39,9 @@ public class Controller {
 		}	
 	}
 
-	@PostMapping("/Send")
-	public String Send(@RequestBody String jsonString) {
+	// delete this function later
+	@PostMapping("/SendOld")
+	public String SendOld(@RequestBody String jsonString) {
 		try {
 			System.out.println("send");
 			Method.Send(Handle.handleJsonMail(new JSONObject(jsonString)));
@@ -50,19 +51,32 @@ public class Controller {
 		}
 	}
 	
-	@PostMapping("/SendAll")
-	public void uploadFiles(@ModelAttribute Mail mail) throws IOException {
-		System.out.println(mail.getFrom());
-		System.out.println(mail.getTo());
-		//Method.addMail(mail);
-		Method.saveAttachments(mail.getFile(), "C:\\test");
+	@PostMapping("/Send")
+	public String Send(@ModelAttribute Mail mail) {
+		try {
+			Method.Send(mail);
+			return "true";
+		}catch(Exception e) {
+			return e.getMessage();
+		}
 	}
 	
-	@PostMapping("/Draft")
-	public String Draft(@RequestBody String jsonString) {
+	// delete this function later
+	@PostMapping("/DraftOld")
+	public String DraftOld(@RequestBody String jsonString) {
 		try {
 			System.out.println("send");
 			Method.Draft(Handle.handleJsonMail(new JSONObject(jsonString)));
+			return "true";
+		}catch(Exception e) {
+			return e.getMessage();
+		}
+	}
+	
+	@PostMapping("/Draft")
+	public String Draft(@ModelAttribute Mail mail) {
+		try {
+			Method.Draft(mail);
 			return "true";
 		}catch(Exception e) {
 			return e.getMessage();

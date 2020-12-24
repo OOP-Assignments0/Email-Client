@@ -202,27 +202,17 @@ public class Method {
 		}
 		return User;
 	}
-
-
-	public static void addMail(Mail m) throws IOException {
-		// create folder and get its pass
-		String path = "C:\\test";
-		// put attachments in that pass
-		saveAttachments(m.getFile(), path);
-		// clear file from Mail
-		m.setFile(null);
-		// use function send
-		Send(m);
-	}
 	
 	private static Path root = null;
 	public static void saveAttachments(MultipartFile[] file, String path) throws IOException {
+		if(file.length == 0)
+			return;
 		root = Paths.get(path);
 		for(int i=0; i<file.length; i++)
 			Files.copy(file[i].getInputStream(), Method.root.resolve(file[i].getOriginalFilename()));
 	}
 	
-	public static void Send(Mail mail) {
+	public static void Send(Mail mail) throws IOException {
 		RunningData data = dictionary.get(mail.getFrom());
 		loadContacts(mail.getFrom(), data);
 		boolean enter = false;
@@ -237,17 +227,26 @@ public class Method {
 			}
 		
 		mail.setFolder("Inbox");
-		SimpleDateFormat format = new SimpleDateFormat("dd:MM:yyyy HH:mm:ss"); 
+		/*SimpleDateFormat format = new SimpleDateFormat("dd:MM:yyyy HH:mm:ss"); 
 		LocalDateTime now = LocalDateTime.now();
-		mail.setDate(format.format(now));
+		mail.setDate(format.format(now));*/
+		// create folder for attachments
 		String InboxPath = "Users" + "\\" + mail.getTo() + "\\" + "Inbox\\" + mail.getName();
-		mail.setName(FileMethods.CreateFolder(InboxPath));
-
+		mail.setName(FileMethods.CreateFolder(InboxPath)); // mail name may be updated here
+		InboxPath = "Users" + "\\" + mail.getTo() + "\\" + "Inbox\\" + mail.getName();
+		saveAttachments(mail.getFile(), InboxPath);
+		
 		String path = "Users" + "\\" + mail.getTo() + "\\" + "Inbox\\Inbox.json";
-
 		FileMethods.appendJsonObjectToFile(path, mail.dataToString());
+		
+		// create folder for attachments
 		String SendPath = "Users" + "\\" + mail.getFrom() + "\\" + "Send\\" + mail.getName();
 		mail.setName(FileMethods.CreateFolder(SendPath));
+		SendPath = "Users" + "\\" + mail.getFrom() + "\\" + "Send\\" + mail.getName();
+		saveAttachments(mail.getFile(), SendPath);
+		//clear attachments from mail object
+		mail.setFile(null);
+		
 		Mail m = mail.copy();
 		m.setFolder("Send");
  		data.getSend().add(m);
@@ -401,10 +400,14 @@ public class Method {
 		FileMethods.updateInbox(data);
 	}*/
 
-	public static void Draft(Mail mail) {
+	public static void Draft(Mail mail) throws IOException {
 		RunningData data = dictionary.get(mail.getFrom());
+		// create folder for attachments
 		String DraftPath = "Users" + "\\" + mail.getFrom() + "\\" + "Draft\\" + mail.getName();
 		mail.setName(FileMethods.CreateFolder(DraftPath));
+		DraftPath = "Users" + "\\" + mail.getFrom() + "\\" + "Draft\\" + mail.getName();
+		saveAttachments(mail.getFile(), DraftPath);
+		
 		data.getDraft().add(mail);
 		FileMethods.updateDraft(data);
 	}
