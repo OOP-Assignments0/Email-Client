@@ -1,10 +1,13 @@
 package oop.emailApp.EmailClient.model;
 
+import java.util.ArrayList;
+
 import org.json.JSONObject;
 
 
 public class Contact {
 	private String email,name,password;
+	private static ArrayList<Contact> Contacts  = new ArrayList<Contact>();
 	
 	public Contact() {}
 	public Contact(String email,String name,String password) {
@@ -43,6 +46,12 @@ public class Contact {
 		obj.put("name", this.getName());
 		obj.put("password", this.getPassword());
 		return obj;
+	}
+	public static ArrayList<Contact> getContacts() {
+		return Contacts;
+	}
+	public static void setContacts(ArrayList<Contact> contacts) {
+		Contacts = contacts;
 	}
 	
 	
