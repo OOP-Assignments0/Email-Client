@@ -3,11 +3,11 @@ package oop.emailApp.EmailClient.services;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,7 +36,6 @@ public class Method {
 
 	public static void SignIn(String email, String password) {
 		RunningData data = new RunningData();
-		loadContacts(email, data);
 		if (SetCurrentUser(email, password, data)) {
 			String FileContent = FileMethods.ReadFromFile("Users\\" + email + "\\Inbox\\Inbox.json");
 			if ((!FileContent.equalsIgnoreCase("")) && FileContent != null) {
@@ -62,6 +61,13 @@ public class Method {
 			} else {
 				data.getTrash().clear();
 			}
+			FileContent = FileMethods.ReadFromFile("Users\\" + email + "\\Friends.json");
+			if ((!FileContent.equalsIgnoreCase("")) && FileContent != null) {
+				data.setFriends(Handle.loadContactsToList(FileContent));
+			} else {
+				data.getFriends().clear();
+			}
+			
 			dictionary.put(email, data);
 		} else {
 			//System.out.println("INCORRECT USEREMAIL OR PASSWORD");
@@ -72,15 +78,14 @@ public class Method {
 	public static void SignUp(String email, String name, String password) {
 		System.out.println("i'm in sign up");
 		RunningData data = new RunningData();
-		loadContacts(email, data);
-		if (!UserFound(email, data)) {
+		if (!UserFound(email)) {
 			Contact c = new Contact(email, name, password);
-			data.getContacts().add(c);
+			Contact.getContacts().add(c);
 			data.setCurrentContact(c);
-			FileMethods.updateContacts(data);
+			FileMethods.updateFileContentWithContactsList("Users\\Contacts.json",Contact.getContacts());
 			dictionary.put(email, data);
 		} else {
-			System.out.println("USER IS ALREADY FOUND");
+			//System.out.println("USER IS ALREADY FOUND");
 			throw new RuntimeErrorException(null, "USER IS ALREADY FOUND");
 			//SignIn(email, password);
 		}
@@ -105,14 +110,14 @@ public class Method {
 		return newMails;
 	}
 
-	private static void loadContacts(String email, RunningData data) {
+	public static void loadContacts() {
 		String FileContent = FileMethods.ReadFromFile("Users\\Contacts.json");
-		data.setContacts(Handle.loadContactsToList(FileContent));
+		Contact.setContacts(Handle.loadContactsToList(FileContent));
 	}
 
-	public static boolean UserFound(String email, RunningData data) {
+	public static boolean UserFound(String email) {
 		boolean User = false;
-		ArrayList<Contact> contacts = data.getContacts();
+		ArrayList<Contact> contacts = Contact.getContacts();
 		for (int i = 0; i < contacts.size(); i++) {
 			if (contacts.get(i).getEmail().equalsIgnoreCase(email)) {
 				User = true;
@@ -121,6 +126,72 @@ public class Method {
 		}
 		return User;
 	}
+	
+	///delete current contact 
+	public static boolean SetCurrentUser(String email, String password, RunningData data) {
+		boolean User = false;
+		ArrayList<Contact> contacts = Contact.getContacts();
+		for (int i = 0; i < contacts.size(); i++) {
+			if (contacts.get(i).getEmail().equalsIgnoreCase(email)) {
+				if (contacts.get(i).getPassword().equalsIgnoreCase(password)) {
+					data.setCurrentContact(contacts.get(i));
+					User = true;
+					break;
+				}
+			}
+		}
+		return User;
+	}
+	
+	public static void AddFriend(String Useremail,String FriendEmail) {
+		if (!UserFound(FriendEmail)) {
+			throw new RuntimeErrorException(null, "INVALID FRIEND EMAIL");
+		}
+		ArrayList<Contact> contacts = Contact.getContacts();
+		for (int i = 0; i < contacts.size(); i++) {
+			if (contacts.get(i).getEmail().equalsIgnoreCase(FriendEmail)) {
+				dictionary.get(Useremail).getFriends().add(contacts.get(i));
+				FileMethods.updateFileContentWithContactsList("Users\\" + Useremail + "\\Friends.json", dictionary.get(Useremail).getFriends());
+			}
+		}
+	}
+	
+	public static void DeleteFriend(String Useremail,String FriendEmail) {
+		ArrayList<Contact> UserFriends = dictionary.get(Useremail).getFriends();
+		for (int i = 0; i < UserFriends.size(); i++) {
+			if (UserFriends.get(i).getEmail().equalsIgnoreCase(FriendEmail)) {
+				UserFriends.remove(i);
+				FileMethods.updateFileContentWithContactsList("Users\\" + Useremail + "\\Friends.json", UserFriends);
+			}
+		}
+	}
+	
+	
+	public static ArrayList<Contact> getFriends(String Useremail) {
+		return dictionary.get(Useremail).getFriends();
+	}
+	
+	public static Contact getContact(String Useremail) {
+		Contact c = new Contact();
+		for (int i = 0 ; i <Contact.getContacts().size();i++) {
+			if (Contact.getContacts().get(i).getEmail().equalsIgnoreCase(Useremail)) {
+				c = Contact.getContacts().get(i);
+			}
+		}
+		return c;
+	}
+	
+	public static void ModifyContact(String Email,String UserName,String Password) {
+		ArrayList<Contact> contacts = Contact.getContacts();
+		for (int i = 0; i < contacts.size(); i++) {
+			if (contacts.get(i).getEmail().equalsIgnoreCase(Email)) {
+				contacts.get(i).setName(UserName);
+				contacts.get(i).setPassword(Password);
+				FileMethods.updateFileContentWithContactsList("Users\\Contacts.json",Contact.getContacts());
+			}
+		}
+	}
+	
 
 	public static ArrayList<Mail> Filter(String filterType, String Useremail, String targetFolder, String Word) {
 		Filter filter = FilterFactory.filterMethod(filterType);
@@ -165,6 +236,7 @@ public class Method {
 		}
 		return sort.Sort(list);
 	}
+	
 
 	/*
 	 * public void loadInbox(String email) { String FileContent =
@@ -188,19 +260,15 @@ public class Method {
 	 * this.data.setTrash(Handle.loadMailsToList(FileContent)); } }
 	 */
 
-	public static boolean SetCurrentUser(String email, String password, RunningData data) {
-		boolean User = false;
-		ArrayList<Contact> contacts = data.getContacts();
-		for (int i = 0; i < contacts.size(); i++) {
-			if (contacts.get(i).getEmail().equalsIgnoreCase(email)) {
-				if (contacts.get(i).getPassword().equalsIgnoreCase(password)) {
-					data.setCurrentContact(contacts.get(i));
-					User = true;
-					break;
-				}
-			}
-		}
-		return User;
+	public static void addMail(Mail m) throws IOException {
+		// create folder and get its pass
+		String path = "C:\\test";
+		// put attachments in that pass
+		saveAttachments(m.getFile(), path);
+		// clear file from Mail
+		m.setFile(null);
+		// use function send
+		Send(m);
 	}
 	
 	private static Path root = null;
@@ -212,29 +280,32 @@ public class Method {
 			Files.copy(file[i].getInputStream(), Method.root.resolve(file[i].getOriginalFilename()));
 	}
 	
-	public static void Send(Mail mail) throws IOException {
+	//public static void Send(Mail mail) throws IOException {
+
+
+	
+	public static void Send(Mail mail) {
 		RunningData data = dictionary.get(mail.getFrom());
-		loadContacts(mail.getFrom(), data);
-		boolean enter = false;
-		for(int i = 0 ; i < data.getContacts().size() ; i++) {
-			if(data.getContacts().get(i).getEmail().equalsIgnoreCase(mail.getTo())) {
+		/*boolean enter = false;
+		for(int i = 0 ; i < Contact.getContacts().size() ; i++) {
+			if(Contact.getContacts().get(i).getEmail().equalsIgnoreCase(mail.getTo())) {
 				enter = true;
 			}
-		}
-		if(enter) {
+		}*/
+		if(UserFound(mail.getTo())) {
 			if (mail.getTo().equalsIgnoreCase(mail.getFrom())) {
 				throw new RuntimeException("Send to yourself");
 			}
 		
 		mail.setFolder("Inbox");
-		/*SimpleDateFormat format = new SimpleDateFormat("dd:MM:yyyy HH:mm:ss"); 
-		LocalDateTime now = LocalDateTime.now();
-		mail.setDate(format.format(now));*/
-		// create folder for attachments
+
+		SimpleDateFormat format = new SimpleDateFormat("dd:MM:yyyy HH:mm:ss"); 
+		Date date = new  Date();
+		mail.setDate(format.format(date));
 		String InboxPath = "Users" + "\\" + mail.getTo() + "\\" + "Inbox\\" + mail.getName();
 		mail.setName(FileMethods.CreateFolder(InboxPath)); // mail name may be updated here
 		InboxPath = "Users" + "\\" + mail.getTo() + "\\" + "Inbox\\" + mail.getName();
-		saveAttachments(mail.getFile(), InboxPath);
+		//saveAttachments(mail.getFile(), InboxPath);
 		
 		String path = "Users" + "\\" + mail.getTo() + "\\" + "Inbox\\Inbox.json";
 		FileMethods.appendJsonObjectToFile(path, mail.dataToString());
@@ -243,7 +314,7 @@ public class Method {
 		String SendPath = "Users" + "\\" + mail.getFrom() + "\\" + "Send\\" + mail.getName();
 		mail.setName(FileMethods.CreateFolder(SendPath));
 		SendPath = "Users" + "\\" + mail.getFrom() + "\\" + "Send\\" + mail.getName();
-		saveAttachments(mail.getFile(), SendPath);
+		//saveAttachments(mail.getFile(), SendPath);
 		//clear attachments from mail object
 		mail.setFile(null);
 		
@@ -258,6 +329,7 @@ public class Method {
 			throw new RuntimeException("Invalid Receiver");
 		}
 	}
+	
 	private static ArrayList<Mail> targetDelete(String targetFolder,RunningData data) {
 		if(targetFolder.equalsIgnoreCase("Inbox")) {
 			return data.getInbox();
@@ -408,6 +480,10 @@ public class Method {
 		DraftPath = "Users" + "\\" + mail.getFrom() + "\\" + "Draft\\" + mail.getName();
 		saveAttachments(mail.getFile(), DraftPath);
 		
+		mail.setFolder("Draft");
+		SimpleDateFormat format = new SimpleDateFormat("dd:MM:yyyy HH:mm:ss"); 
+		Date date = new  Date();
+		mail.setDate(format.format(date));
 		data.getDraft().add(mail);
 		FileMethods.updateDraft(data);
 	}
