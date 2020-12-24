@@ -23,7 +23,7 @@ public class Controller {
 			System.out.println("true");
 			return "true";
 		}catch(Exception e){
-			System.out.println(e.getMessage());
+			//System.out.println(e.getMessage());
 			return e.getMessage();
 		}
 	}
@@ -132,10 +132,9 @@ public class Controller {
 	public String getEmails(@RequestBody String jsonString) {
 		System.out.println(jsonString);
 		JSONObject obj = new JSONObject(jsonString);
-		System.out.println(Handle.mailListToJsonArray(Method.getMails(obj.getString("email"),obj.getString("targetFolder"))).toString());
+		//System.out.println(Handle.mailListToJsonArray(Method.getMails(obj.getString("email"),obj.getString("targetFolder"))).toString());
 		return Handle.mailListToJsonArray(Method.getMails(obj.getString("email"),obj.getString("targetFolder"))).toString();
 	}
-	
 	
 	
 	@PostMapping("/Search")
@@ -144,4 +143,53 @@ public class Controller {
 		 ArrayList<Mail> result = Method.search(obj.getString("str"), obj.getString("region"), obj.getString("emailPart"), obj.getString("Useremail"));
 		return Handle.mailListToJsonArray(result).toString();
 	}
+	
+	@PostMapping("/AddFriend")
+	public String AddFriend(@RequestBody String jsonString) {
+		try {
+			JSONObject obj = new JSONObject(jsonString);
+			Method.AddFriend(obj.getString("Useremail"), obj.getString("FriendEmail"));
+			return "true";
+		}catch(Exception e) {
+			return e.getMessage();
+		}
+	}
+	
+	@PostMapping("/DeleteFriend")
+	public String DeleteFriend(@RequestBody String jsonString) {
+		try {
+			JSONObject obj = new JSONObject(jsonString);
+			Method.DeleteFriend(obj.getString("Useremail"), obj.getString("FriendEmail"));
+			return "true";
+		}catch(Exception e) {
+			return e.getMessage();
+		}
+	}
+	
+	@PostMapping("/GetFriends")
+	public String GetFriends(@RequestBody String jsonString) {
+		//System.out.println(jsonString);
+		JSONObject obj = new JSONObject(jsonString);
+		return Handle.ContactListToJsonArray(Method.getFriends(obj.getString("email"))).toString();
+	}
+	
+	@PostMapping("/GetContact")
+	public String GetContact(@RequestBody String jsonString) {
+		JSONObject obj = new JSONObject(jsonString);
+		return Method.getContact(obj.getString("email")).ContactTOJsonObject().toString();
+	}
+	
+	@PostMapping("/ModifyContact")
+	public String ModifyContact(@RequestBody String jsonString) {
+		try {
+			JSONObject obj = new JSONObject(jsonString);
+			Method.ModifyContact(obj.getString("email"), obj.getString("name"), obj.getString("password"));
+			return "true";
+		}catch(Exception e){
+			//System.out.println(e.getMessage());
+			return e.getMessage();
+		}
+	}
+	
+	
 }
