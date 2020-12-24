@@ -259,17 +259,6 @@ public class Method {
 	 * ((!FileContent.equalsIgnoreCase("")) && FileContent != null) {
 	 * this.data.setTrash(Handle.loadMailsToList(FileContent)); } }
 	 */
-
-	public static void addMail(Mail m) throws IOException {
-		// create folder and get its pass
-		String path = "C:\\test";
-		// put attachments in that pass
-		saveAttachments(m.getFile(), path);
-		// clear file from Mail
-		m.setFile(null);
-		// use function send
-		Send(m);
-	}
 	
 	private static Path root = null;
 	public static void saveAttachments(MultipartFile[] file, String path) throws IOException {
@@ -284,14 +273,8 @@ public class Method {
 
 
 	
-	public static void Send(Mail mail) {
+	public static void Send(Mail mail) throws IOException {
 		RunningData data = dictionary.get(mail.getFrom());
-		/*boolean enter = false;
-		for(int i = 0 ; i < Contact.getContacts().size() ; i++) {
-			if(Contact.getContacts().get(i).getEmail().equalsIgnoreCase(mail.getTo())) {
-				enter = true;
-			}
-		}*/
 		if(UserFound(mail.getTo())) {
 			if (mail.getTo().equalsIgnoreCase(mail.getFrom())) {
 				throw new RuntimeException("Send to yourself");
@@ -302,10 +285,12 @@ public class Method {
 		SimpleDateFormat format = new SimpleDateFormat("dd:MM:yyyy HH:mm:ss"); 
 		Date date = new  Date();
 		mail.setDate(format.format(date));
+		
+		// create folder for attachments
 		String InboxPath = "Users" + "\\" + mail.getTo() + "\\" + "Inbox\\" + mail.getName();
 		mail.setName(FileMethods.CreateFolder(InboxPath)); // mail name may be updated here
 		InboxPath = "Users" + "\\" + mail.getTo() + "\\" + "Inbox\\" + mail.getName();
-		//saveAttachments(mail.getFile(), InboxPath);
+		saveAttachments(mail.getFile(), InboxPath);
 		
 		String path = "Users" + "\\" + mail.getTo() + "\\" + "Inbox\\Inbox.json";
 		FileMethods.appendJsonObjectToFile(path, mail.dataToString());
@@ -314,7 +299,7 @@ public class Method {
 		String SendPath = "Users" + "\\" + mail.getFrom() + "\\" + "Send\\" + mail.getName();
 		mail.setName(FileMethods.CreateFolder(SendPath));
 		SendPath = "Users" + "\\" + mail.getFrom() + "\\" + "Send\\" + mail.getName();
-		//saveAttachments(mail.getFile(), SendPath);
+		saveAttachments(mail.getFile(), SendPath);
 		//clear attachments from mail object
 		mail.setFile(null);
 		
