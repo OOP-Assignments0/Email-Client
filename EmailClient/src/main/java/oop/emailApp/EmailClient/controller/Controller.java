@@ -1,19 +1,48 @@
 package oop.emailApp.EmailClient.controller;
 
+
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 
 import oop.emailApp.EmailClient.services.Method;
 import oop.emailApp.EmailClient.model.Mail;
 import oop.emailApp.EmailClient.services.Handle;
+import org.springframework.web.bind.annotation.RestController;
+
 
 @CrossOrigin
 @RestController
 public class Controller {
 
+	@PostMapping(value = "/download/{file_name}")
+	public @ResponseBody ResponseEntity<Resource> getFile(@RequestBody String path, @PathVariable String file_name) throws IOException {
+		JSONObject obj = new JSONObject(path);
+		File file = new File(obj.getString("path") +"\\"+ file_name);
+		InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
+		HttpHeaders headers = new HttpHeaders();
+        headers.add("Cache-Control", "no-cache, no-store, must-revalidate");
+        headers.add("Pragma", "no-cache");
+        headers.add("Expires", "0");
+		return ResponseEntity.ok()
+	            .headers(headers)
+	            .contentLength(file.length())
+	            .contentType(MediaType.APPLICATION_OCTET_STREAM)
+	            .body(resource);
+	}
+	
 	@PostMapping("/SignUp")
 	public String SignUp(@RequestBody String jsonString) {
 		try {
@@ -189,6 +218,9 @@ public class Controller {
 			return e.getMessage();
 		}
 	}
+	
+
+
 	
 	
 }
