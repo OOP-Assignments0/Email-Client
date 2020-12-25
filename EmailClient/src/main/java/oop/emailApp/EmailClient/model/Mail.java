@@ -1,5 +1,6 @@
 package oop.emailApp.EmailClient.model;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -10,7 +11,7 @@ public class Mail  {
 	private String to;
 	private String subject;
 	private String date;
-	private String attachmentsPath;
+	private String[] attachments;
 	private MultipartFile[] file;
 	private int priority;
     private String name;
@@ -29,7 +30,10 @@ public class Mail  {
 		this.body = email;
 	}
 	public void setAttachments(String path) {
-		this.attachmentsPath = System.getProperty("user.dir") + "\\" + path;
+		attachments = new String[file.length+1];
+		attachments[0] = System.getProperty("user.dir") + "\\" + path;
+		for(int i=1; i<file.length+1; i++)
+			attachments[i] = file[i-1].getOriginalFilename();
 	}
 	public void setPriority(int priority) {
 		this.priority = priority;
@@ -61,8 +65,8 @@ public class Mail  {
 	public String getBody() {
 		return body;
 	}
-	public String getAttachmentsPath() {
-		return attachmentsPath;
+	public String[] getAttachments() {
+		return attachments;
 	}
 	public int getPriority() {
 		return priority;
@@ -78,7 +82,7 @@ public class Mail  {
 	}
 	public Mail copy() {
 		Mail m = new Mail();
-		m.attachmentsPath = this.attachmentsPath;
+		m.attachments = this.attachments.clone();
 		m.body = this.body;
 		m.from = this.from;
 		m.to = this.to;
@@ -92,6 +96,7 @@ public class Mail  {
 
 	public JSONObject dataToString() {
 		JSONObject jsonObject=new JSONObject();
+		JSONArray attach = new JSONArray();
 		
 		jsonObject.put("from",this.from);
         jsonObject.put("to",this.to);
@@ -101,7 +106,12 @@ public class Mail  {
         jsonObject.put("date",this.date);
         jsonObject.put("body",this.body);
         jsonObject.put("folder", this.folder);
-        jsonObject.put("attachments", this.attachmentsPath);
+        
+        if(this.attachments != null) {
+	        for(int i=0; i<this.attachments.length; i++)
+	        	attach.put(this.attachments[i]);
+        }
+    	jsonObject.put("attachments", attach);
         
 		return jsonObject;
         
