@@ -374,6 +374,21 @@ public class Method {
 		FileMethods.delete(source);
 		FileMethods.updateTrash(data);
 	}
+	
+	public static void removeFromDraft(Mail mail, String Useremail) {
+		RunningData data = dictionary.get(Useremail);
+		
+		String SourcePath = "Users" + "\\" + Useremail + "\\" + "Draft"+"\\" + mail.getName();
+		for (int i = 0; i < data.getTrash().size(); i++) {
+			if (data.getTrash().get(i).getName().equalsIgnoreCase(mail.getName())) {
+				data.getTrash().remove(i);
+				break;
+			}
+		}
+		File source = new File(SourcePath);
+		FileMethods.delete(source);
+		FileMethods.updateTrash(data);
+	}
 	/*
 	public static void Delete(Mail mail) {
 		RunningData data = dictionary.get(mail.getTo());
