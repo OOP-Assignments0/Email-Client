@@ -1,6 +1,5 @@
 package oop.emailApp.EmailClient.model;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -11,7 +10,7 @@ public class Mail  {
 	private String to;
 	private String subject;
 	private String date;
-	private String[] attachments;
+	private String attachmentsPath;
 	private MultipartFile[] file;
 	private int priority;
     private String name;
@@ -29,8 +28,8 @@ public class Mail  {
 	public void setBody(String email) {
 		this.body = email;
 	}
-	public void setAttachments(String[] attachment) {
-		this.attachments = attachment.clone();
+	public void setAttachments(String path) {
+		this.attachmentsPath = System.getProperty("user.dir") + "\\" + path;
 	}
 	public void setPriority(int priority) {
 		this.priority = priority;
@@ -62,8 +61,8 @@ public class Mail  {
 	public String getBody() {
 		return body;
 	}
-	public String[] getAttachments() {
-		return attachments;
+	public String getAttachmentsPath() {
+		return attachmentsPath;
 	}
 	public int getPriority() {
 		return priority;
@@ -79,7 +78,7 @@ public class Mail  {
 	}
 	public Mail copy() {
 		Mail m = new Mail();
-		m.attachments = this.attachments;
+		m.attachmentsPath = this.attachmentsPath;
 		m.body = this.body;
 		m.from = this.from;
 		m.to = this.to;
@@ -93,7 +92,6 @@ public class Mail  {
 
 	public JSONObject dataToString() {
 		JSONObject jsonObject=new JSONObject();
-		JSONArray attach = new JSONArray();
 		
 		jsonObject.put("from",this.from);
         jsonObject.put("to",this.to);
@@ -103,12 +101,8 @@ public class Mail  {
         jsonObject.put("date",this.date);
         jsonObject.put("body",this.body);
         jsonObject.put("folder", this.folder);
-        /*
-        for(int i=0; i<attachments.length; i++)
-        	attach.put(attachments[i]);
+        jsonObject.put("attachments", this.attachmentsPath);
         
-        jsonObject.put("attachments", attach);
-        */
 		return jsonObject;
         
 	}
@@ -116,7 +110,6 @@ public class Mail  {
 	// delete this later
 	public static void main(String[] args) {
 		Mail m = new Mail();
-		m.setAttachments(new String[]{"photo","video"});
 		m.setBody("body of the email");
 		m.setDate("5/10/2030");
 		m.setFrom("ahmed@fray.com");
@@ -124,7 +117,8 @@ public class Mail  {
 		m.setPriority(5);
 		m.setSubject("hello");
 		m.setTo("ali@fray.com");
-		System.out.print(m.dataToString().toString());
+		System.out.println(m.dataToString().toString());
+		System.out.println(System.getProperty("user.dir"));
 		
 	}
 

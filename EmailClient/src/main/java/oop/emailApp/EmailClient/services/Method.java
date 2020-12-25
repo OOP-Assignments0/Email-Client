@@ -274,10 +274,6 @@ public class Method {
 			Files.copy(file[i].getInputStream(), Method.root.resolve(file[i].getOriginalFilename()));
 	}
 	
-	//public static void Send(Mail mail) throws IOException {
-
-
-	
 	public static void Send(Mail mail) throws IOException {
 		RunningData data = dictionary.get(mail.getFrom());
 		if(UserFound(mail.getTo())) {
@@ -296,6 +292,7 @@ public class Method {
 		mail.setName(FileMethods.CreateFolder(InboxPath)); // mail name may be updated here
 		InboxPath = "Users" + "\\" + mail.getTo() + "\\" + "Inbox\\" + mail.getName();
 		saveAttachments(mail.getFile(), InboxPath);
+		mail.setAttachments(InboxPath);
 		
 		String path = "Users" + "\\" + mail.getTo() + "\\" + "Inbox\\Inbox.json";
 		FileMethods.appendJsonObjectToFile(path, mail.dataToString());
@@ -305,6 +302,7 @@ public class Method {
 		mail.setName(FileMethods.CreateFolder(SendPath));
 		SendPath = "Users" + "\\" + mail.getFrom() + "\\" + "Send\\" + mail.getName();
 		saveAttachments(mail.getFile(), SendPath);
+		mail.setAttachments(SendPath);
 		//clear attachments from mail object
 		mail.setFile(null);
 		
@@ -469,6 +467,9 @@ public class Method {
 		mail.setName(FileMethods.CreateFolder(DraftPath));
 		DraftPath = "Users" + "\\" + mail.getFrom() + "\\" + "Draft\\" + mail.getName();
 		saveAttachments(mail.getFile(), DraftPath);
+		mail.setAttachments(DraftPath);
+		//clear attachments from mail object
+		mail.setFile(null);
 		
 		mail.setFolder("Draft");
 		SimpleDateFormat format = new SimpleDateFormat("dd:MM:yyyy HH:mm:ss"); 
