@@ -19,7 +19,9 @@ import org.springframework.web.bind.annotation.*;
 
 import oop.emailApp.EmailClient.services.Method;
 import oop.emailApp.EmailClient.model.Mail;
-import oop.emailApp.EmailClient.services.Handle;
+import oop.emailApp.EmailClient.services.JsonArrayIterator;
+import oop.emailApp.EmailClient.services.MailIterator;
+
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -72,7 +74,7 @@ public class Controller {
 	public String SendOld(@RequestBody String jsonString) {
 		try {
 			System.out.println("send");
-			Method.Send(Handle.handleJsonMail(new JSONObject(jsonString)));
+			Method.Send(MailIterator.handleJsonMail(new JSONObject(jsonString)));
 			return "true";
 		}catch(Exception e) {
 			return e.getMessage();
@@ -94,7 +96,7 @@ public class Controller {
 	public String DraftOld(@RequestBody String jsonString) {
 		try {
 			System.out.println("send");
-			Method.Draft(Handle.handleJsonMail(new JSONObject(jsonString)));
+			Method.Draft(MailIterator.handleJsonMail(new JSONObject(jsonString)));
 			return "true";
 		}catch(Exception e) {
 			return e.getMessage();
@@ -118,7 +120,7 @@ public class Controller {
 
 			System.out.println(arr.getJSONObject(1).getString("email"));
 			System.out.println(arr.getJSONObject(2).getString("targetFolder"));*/
-			Method.Delete(Handle.handleJsonMail(arr.getJSONObject(0).getJSONObject("mail")),arr.getJSONObject(1).getString("email"),arr.getJSONObject(2).getString("targetFolder"));
+			Method.Delete(MailIterator.handleJsonMail(arr.getJSONObject(0).getJSONObject("mail")),arr.getJSONObject(1).getString("email"),arr.getJSONObject(2).getString("targetFolder"));
 			/*JSONObject obj = new JSONObject(jsonString);
 			System.out.println("\n\n\n"+obj.getJSONObject("mail").toString());
 			System.out.println(obj.getString("email"));
@@ -133,7 +135,7 @@ public class Controller {
 	public String Restore(@RequestBody String jsonString) {
 		try {
 			JSONArray arr = new JSONArray(jsonString);
-			Method.Restore(Handle.handleJsonMail(arr.getJSONObject(0).getJSONObject("mail")),arr.getJSONObject(1).getString("email"));
+			Method.Restore(MailIterator.handleJsonMail(arr.getJSONObject(0).getJSONObject("mail")),arr.getJSONObject(1).getString("email"));
 			return "true";
 		}catch(Exception e) {
 			return e.getMessage();
@@ -145,7 +147,7 @@ public class Controller {
 		JSONObject obj = new JSONObject(jsonString);
 		ArrayList<Mail> list = Method.Filter(obj.getString("filterType"), obj.getString("email"),
 				obj.getString("targetFolder"), obj.getString("Word"));
-		return Handle.mailListToJsonArray(list).toString();
+		return JsonArrayIterator.mailListToJsonArray(list).toString();
 	}
 	
 	@PostMapping("/Sort")
@@ -153,7 +155,7 @@ public class Controller {
 		JSONObject obj = new JSONObject(jsonString);
 		ArrayList<Mail> list = Method.Sorting(obj.getString("SortType"), obj.getString("email"),
 				obj.getString("targetFolder"));
-		return Handle.mailListToJsonArray(list).toString();
+		return JsonArrayIterator.mailListToJsonArray(list).toString();
 	}
 	
 	@PostMapping("/GetEmails")
@@ -161,7 +163,7 @@ public class Controller {
 		//System.out.println(jsonString);
 		JSONObject obj = new JSONObject(jsonString);
 		//System.out.println(Handle.mailListToJsonArray(Method.getMails(obj.getString("email"),obj.getString("targetFolder"))).toString());
-		return Handle.mailListToJsonArray(Method.getMails(obj.getString("email"),obj.getString("targetFolder"))).toString();
+		return JsonArrayIterator.mailListToJsonArray(Method.getMails(obj.getString("email"),obj.getString("targetFolder"))).toString();
 	}
 	
 	
@@ -169,7 +171,7 @@ public class Controller {
 	public String Search(@RequestBody String jsonString) {
 		JSONObject obj = new JSONObject(jsonString);
 		 ArrayList<Mail> result = Method.search(obj.getString("str"), obj.getString("region"), obj.getString("emailPart"), obj.getString("Useremail"));
-		return Handle.mailListToJsonArray(result).toString();
+		return JsonArrayIterator.mailListToJsonArray(result).toString();
 	}
 	
 	@PostMapping("/AddFriend")
@@ -198,7 +200,7 @@ public class Controller {
 	public String GetFriends(@RequestBody String jsonString) {
 		//System.out.println(jsonString);
 		JSONObject obj = new JSONObject(jsonString);
-		return Handle.ContactListToJsonArray(Method.getFriends(obj.getString("email"))).toString();
+		return JsonArrayIterator.ContactListToJsonArray(Method.getFriends(obj.getString("email"))).toString();
 	}
 	
 	@PostMapping("/GetContact")
@@ -224,7 +226,7 @@ public class Controller {
 		try {
 			JSONArray arr = new JSONArray(jsonString);
 			System.out.println(jsonString);
-			Method.removeFromDraft(Handle.handleJsonMail(arr.getJSONObject(0).getJSONObject("mail")),arr.getJSONObject(1).getString("email"));
+			Method.removeFromDraft(MailIterator.handleJsonMail(arr.getJSONObject(0).getJSONObject("mail")),arr.getJSONObject(1).getString("email"));
 			return "true";
 		}catch(Exception e) {
 			return e.getMessage();
