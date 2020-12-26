@@ -19,6 +19,7 @@ import oop.emailApp.EmailClient.model.Contact;
 import oop.emailApp.EmailClient.model.Mail;
 import oop.emailApp.EmailClient.model.RunningData;
 import oop.emailApp.EmailClient.services.filters.*;
+import oop.emailApp.EmailClient.services.iterator.*;
 import oop.emailApp.EmailClient.services.sorts.ISort;
 import oop.emailApp.EmailClient.services.sorts.SortFactory;
 import oop.emailApp.EmailClient.services.search.search;

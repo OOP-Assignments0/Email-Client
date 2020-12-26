@@ -19,8 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 import oop.emailApp.EmailClient.services.Method;
 import oop.emailApp.EmailClient.model.Mail;
-import oop.emailApp.EmailClient.services.JsonArrayIterator;
-import oop.emailApp.EmailClient.services.MailIterator;
+import oop.emailApp.EmailClient.services.iterator.*;
 
 import org.springframework.web.bind.annotation.RestController;
 

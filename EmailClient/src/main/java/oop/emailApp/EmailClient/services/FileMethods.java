@@ -17,6 +17,7 @@ import org.json.*;
 import oop.emailApp.EmailClient.model.Contact;
 import oop.emailApp.EmailClient.model.Mail;
 import oop.emailApp.EmailClient.model.RunningData;
+import oop.emailApp.EmailClient.services.iterator.JsonArrayIterator;
 
 public class FileMethods {
 
