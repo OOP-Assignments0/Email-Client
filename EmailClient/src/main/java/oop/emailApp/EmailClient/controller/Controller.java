@@ -111,7 +111,7 @@ public class Controller {
 			return e.getMessage();
 		}
 	}
-	@PostMapping("/Delete")
+	@DeleteMapping("/Delete")
 	public String Delete(@RequestBody String jsonString) {
 		try {
 			JSONArray arr = new JSONArray(jsonString);
@@ -157,7 +157,7 @@ public class Controller {
 		return JsonArrayIterator.mailListToJsonArray(list).toString();
 	}
 	
-	@PostMapping("/GetEmails")
+	@PutMapping("/GetEmails")
 	public String getEmails(@RequestBody String jsonString) {
 		//System.out.println(jsonString);
 		JSONObject obj = new JSONObject(jsonString);
@@ -184,7 +184,7 @@ public class Controller {
 		}
 	}
 	
-	@PostMapping("/DeleteFriend")
+	@DeleteMapping("/DeleteFriend")
 	public String DeleteFriend(@RequestBody String jsonString) {
 		try {
 			JSONObject obj = new JSONObject(jsonString);
@@ -220,7 +220,7 @@ public class Controller {
 		}
 	}
 	
-	@PostMapping("/RemoveDraft")
+	@DeleteMapping("/RemoveDraft")
 	public String RemoveDraft(@RequestBody String jsonString) {
 		try {
 			JSONArray arr = new JSONArray(jsonString);
