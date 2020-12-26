@@ -1,6 +1,7 @@
 package oop.emailApp.EmailClient.services.iterator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -20,7 +21,12 @@ public class MailIterator {
 		m.setName(obj.getString("name"));
 		m.setDate(obj.getString("date"));
 		m.setFolder(obj.getString("folder"));
-		m.setAttachments(obj.getString("attachments"));
+		JSONArray arr = obj.getJSONArray("attachments");
+		List<String> list = new ArrayList<String>();
+		for(int i = 0; i < arr.length(); i++){
+		    list.add(arr.getJSONObject(i).getString("name"));
+		}
+		m.setAttachments(list.toArray(new String[0]));
 		return m;
 	}
 
