@@ -27,6 +27,7 @@ public class Handle {
 		m.setName(obj.getString("name"));
 		m.setDate(obj.getString("date"));
 		m.setFolder(obj.getString("folder"));
+		m.setAttachments(obj.getString("attachments"));
 		return m;
 	}
 

@@ -480,11 +480,6 @@ public class Method {
 		// create folder for attachments
 		String DraftPath = "Users" + "\\" + mail.getFrom() + "\\" + "Draft\\" + mail.getName();
 		mail.setName(FileMethods.CreateFolder(DraftPath));
-		DraftPath = "Users" + "\\" + mail.getFrom() + "\\" + "Draft\\" + mail.getName();
-		saveAttachments(mail.getFile(), DraftPath);
-		mail.setAttachments(DraftPath);
-		//clear attachments from mail object
-		mail.setFile(null);
 		
 		mail.setFolder("Draft");
 		SimpleDateFormat format = new SimpleDateFormat("dd:MM:yyyy HH:mm:ss"); 
