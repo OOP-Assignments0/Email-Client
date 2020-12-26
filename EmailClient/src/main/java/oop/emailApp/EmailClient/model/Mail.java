@@ -36,7 +36,7 @@ public class Mail  {
 			attachments[i] = file[i-1].getOriginalFilename();
 	}
 	public void setAttachments(String[] Attachments) {
-		this.attachments = Attachments;
+		this.attachments = Attachments; 
 	}
 	public void setPriority(int priority) {
 		this.priority = priority;
