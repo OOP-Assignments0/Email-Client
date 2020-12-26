@@ -26,7 +26,7 @@ public class MailIterator {
 		for(int i = 0; i < arr.length(); i++){
 		    list.add(arr.getJSONObject(i).getString("name"));
 		}
-		m.setAttachments(list.toArray(new String[0]));
+		m.setAttachments(list.toArray(String[]::new));
 		return m;
 	}
 
