@@ -21,12 +21,18 @@ public class MailIterator {
 		m.setName(obj.getString("name"));
 		m.setDate(obj.getString("date"));
 		m.setFolder(obj.getString("folder"));
-		JSONArray arr = obj.getJSONArray("attachments");
-		List<String> list = new ArrayList<String>();
-		for(int i = 0; i < arr.length(); i++){
-		    list.add(arr.getJSONObject(i).getString("name"));
+		try {
+			JSONArray arr = obj.getJSONArray("attachments");
+			List<String> list = new ArrayList<String>();
+			for(int i = 0; i < arr.length(); i++){
+			    list.add(arr.get(i).toString());
+			}
+			m.setAttachments(list.toArray(String[]::new));
+			
+		}catch(org.json.JSONException e) {
+			System.out.println(e.getMessage()+" error at Mailiterator.handleJsonMail");
 		}
-		m.setAttachments(list.toArray(String[]::new));
+		
 		return m;
 	}
 
