@@ -1,5 +1,5 @@
 package oop.emailApp.EmailClient.services.search;
-
+ 
 import java.util.ArrayList;
 
 import oop.emailApp.EmailClient.model.Mail;
