@@ -30,6 +30,8 @@ public class Mail  {
 		this.body = email;
 	}
 	public void setAttachments(String path) {
+		if(this.file == null)
+			return;
 		attachments = new String[file.length+1];
 		attachments[0] = System.getProperty("user.dir") + "\\" + path;
 		for(int i=1; i<file.length+1; i++)
@@ -85,7 +87,10 @@ public class Mail  {
 	}
 	public Mail copy() {
 		Mail m = new Mail();
-		m.attachments = this.attachments.clone();
+		if(this.attachments == null)
+			m.attachments = null;
+		else
+			m.attachments = this.attachments.clone();
 		m.body = this.body;
 		m.from = this.from;
 		m.to = this.to;
