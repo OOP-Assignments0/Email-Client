@@ -7,8 +7,8 @@ import oop.emailApp.EmailClient.model.RunningData;
 
 public class searchRegion {
 	
-	ArrayList<Mail> result;
-	boolean found = false;
+	private ArrayList<Mail> result;
+	private boolean found = false;
 	
 	public ArrayList<Mail> search(
 		String str, RunningData data, boolean inbox, boolean trash, boolean draft, boolean send,
