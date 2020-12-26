@@ -158,7 +158,7 @@ public class Controller {
 	
 	@PostMapping("/GetEmails")
 	public String getEmails(@RequestBody String jsonString) {
-		System.out.println(jsonString);
+		//System.out.println(jsonString);
 		JSONObject obj = new JSONObject(jsonString);
 		//System.out.println(Handle.mailListToJsonArray(Method.getMails(obj.getString("email"),obj.getString("targetFolder"))).toString());
 		return Handle.mailListToJsonArray(Method.getMails(obj.getString("email"),obj.getString("targetFolder"))).toString();
@@ -219,10 +219,11 @@ public class Controller {
 		}
 	}
 	
-	@PostMapping("/RemoveTrash")
-	public String RemoveTrash(@RequestBody String jsonString) {
+	@PostMapping("/RemoveDraft")
+	public String RemoveDraft(@RequestBody String jsonString) {
 		try {
 			JSONArray arr = new JSONArray(jsonString);
+			System.out.println(jsonString);
 			Method.removeFromDraft(Handle.handleJsonMail(arr.getJSONObject(0).getJSONObject("mail")),arr.getJSONObject(1).getString("email"));
 			return "true";
 		}catch(Exception e) {
