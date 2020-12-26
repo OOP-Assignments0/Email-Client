@@ -360,25 +360,25 @@ public class Method {
 		FileMethods.updateTrash(data);}
 	}
 	
-	public static void removeFromTrash(Mail mail, String Useremail) {
+	public static void removeFromDraft(Mail mail, String Useremail) {
 		RunningData data = dictionary.get(Useremail);
 		
 		String SourcePath = "Users" + "\\" + Useremail + "\\" + "Trash"+"\\" + mail.getName();
 		for (int i = 0; i < data.getTrash().size(); i++) {
-			if (data.getTrash().get(i).getName().equalsIgnoreCase(mail.getName())) {
-				data.getTrash().remove(i);
+			if (data.getDraft().get(i).getName().equalsIgnoreCase(mail.getName())) {
+				data.getDraft().remove(i);
 				break;
 			}
 		}
 		File source = new File(SourcePath);
 		FileMethods.delete(source);
-		FileMethods.updateTrash(data);
+		FileMethods.updateDraft(data);
 	}
 	
-	public static void removeFromDraft(Mail mail, String Useremail) {
+	public static void removeFromTrash(Mail mail, String Useremail) {
 		RunningData data = dictionary.get(Useremail);
 		
-		String SourcePath = "Users" + "\\" + Useremail + "\\" + "Draft"+"\\" + mail.getName();
+		String SourcePath = "Users" + "\\" + Useremail + "\\" + "Trash"+"\\" + mail.getName();
 		for (int i = 0; i < data.getTrash().size(); i++) {
 			if (data.getTrash().get(i).getName().equalsIgnoreCase(mail.getName())) {
 				data.getTrash().remove(i);
