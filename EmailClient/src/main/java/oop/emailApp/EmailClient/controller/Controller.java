@@ -219,6 +219,16 @@ public class Controller {
 		}
 	}
 	
+	@PostMapping("/RemoveTrash")
+	public String RemoveTrash(@RequestBody String jsonString) {
+		try {
+			JSONArray arr = new JSONArray(jsonString);
+			Method.removeFromDraft(Handle.handleJsonMail(arr.getJSONObject(0).getJSONObject("mail")),arr.getJSONObject(1).getString("email"));
+			return "true";
+		}catch(Exception e) {
+			return e.getMessage();
+		}
+	}
 
 
 	
