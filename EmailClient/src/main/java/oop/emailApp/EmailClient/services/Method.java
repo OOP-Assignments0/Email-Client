@@ -19,6 +19,7 @@ import oop.emailApp.EmailClient.model.Contact;
 import oop.emailApp.EmailClient.model.Mail;
 import oop.emailApp.EmailClient.model.RunningData;
 import oop.emailApp.EmailClient.services.filters.*;
+import oop.emailApp.EmailClient.services.iterator.*;
 import oop.emailApp.EmailClient.services.sorts.ISort;
 import oop.emailApp.EmailClient.services.sorts.SortFactory;
 import oop.emailApp.EmailClient.services.search.search;
@@ -39,31 +40,31 @@ public class Method {
 		if (SetCurrentUser(email, password, data)) {
 			String FileContent = FileMethods.ReadFromFile("Users\\" + email + "\\Inbox\\Inbox.json");
 			if ((!FileContent.equalsIgnoreCase("")) && FileContent != null) {
-				data.setInbox(Handle.loadMailsToList(FileContent));
+				data.setInbox(MailIterator.loadMailsToList(FileContent));
 			} else {
 				data.getInbox().clear();
 			}
 			FileContent = FileMethods.ReadFromFile("Users\\" + email + "\\Draft\\Draft.json");
 			if ((!FileContent.equalsIgnoreCase("")) && FileContent != null) {
-				data.setDraft(Handle.loadMailsToList(FileContent));
+				data.setDraft(MailIterator.loadMailsToList(FileContent));
 			} else {
 				data.getDraft().clear();
 			}
 			FileContent = FileMethods.ReadFromFile("Users\\" + email + "\\Send\\Send.json");
 			if ((!FileContent.equalsIgnoreCase("")) && FileContent != null) {
-				data.setSend(Handle.loadMailsToList(FileContent));
+				data.setSend(MailIterator.loadMailsToList(FileContent));
 			} else {
 				data.getSend().clear();
 			}
 			FileContent = FileMethods.ReadFromFile("Users\\" + email + "\\Trash\\Trash.json");
 			if ((!FileContent.equalsIgnoreCase("")) && FileContent != null) {
-				data.setTrash(Handle.loadMailsToList(FileContent));
+				data.setTrash(MailIterator.loadMailsToList(FileContent));
 			} else {
 				data.getTrash().clear();
 			}
 			FileContent = FileMethods.ReadFromFile("Users\\" + email + "\\Friends.json");
 			if ((!FileContent.equalsIgnoreCase("")) && FileContent != null) {
-				data.setFriends(Handle.loadContactsToList(FileContent));
+				data.setFriends(ConatctIterator.loadContactsToList(FileContent));
 			} else {
 				data.getFriends().clear();
 			}
@@ -112,7 +113,7 @@ public class Method {
 
 	public static void loadContacts() {
 		String FileContent = FileMethods.ReadFromFile("Users\\Contacts.json");
-		Contact.setContacts(Handle.loadContactsToList(FileContent));
+		Contact.setContacts(ConatctIterator.loadContactsToList(FileContent));
 	}
 
 	public static boolean UserFound(String email) {
