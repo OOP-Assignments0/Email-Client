@@ -242,30 +242,7 @@ public class Method {
 		}
 		return sort.Sort(list);
 	}
-	
 
-	/*
-	 * public void loadInbox(String email) { String FileContent =
-	 * FileMethods.ReadFromFile("Users\\" + email + "\\Inbox.json"); if
-	 * ((!FileContent.equalsIgnoreCase("")) && FileContent != null) {
-	 * this.data.setInbox(Handle.loadMailsToList(FileContent)); } }
-	 * 
-	 * public void loadSend(String email) { String FileContent =
-	 * FileMethods.ReadFromFile("Users\\" + email + "\\Send.json"); if
-	 * ((!FileContent.equalsIgnoreCase("")) && FileContent != null) {
-	 * this.data.setSend(Handle.loadMailsToList(FileContent)); } }
-	 * 
-	 * public void loadDraft(String email) { String FileContent =
-	 * FileMethods.ReadFromFile("Users\\" + email + "\\Draft.json"); if
-	 * ((!FileContent.equalsIgnoreCase("")) && FileContent != null) {
-	 * this.data.setDraft(Handle.loadMailsToList(FileContent)); } }
-	 * 
-	 * public void loadTrash(String email) { String FileContent =
-	 * FileMethods.ReadFromFile("Users\\" + email + "\\Trash.json"); if
-	 * ((!FileContent.equalsIgnoreCase("")) && FileContent != null) {
-	 * this.data.setTrash(Handle.loadMailsToList(FileContent)); } }
-	 */
-	
 	private static Path root = null;
 	public static void saveAttachments(MultipartFile[] file, String path) throws IOException {
 		if(file == null || file.length == 0)
@@ -329,6 +306,8 @@ public class Method {
 		}
 		return null;
 	}
+	
+	
 	public static void Delete(Mail mail, String Useremail, String targetFolder) {
 		if(targetFolder.equalsIgnoreCase("Trash")) {
 			removeFromTrash(mail, Useremail);
@@ -364,8 +343,8 @@ public class Method {
 	public static void removeFromDraft(Mail mail, String Useremail) {
 		RunningData data = dictionary.get(Useremail);
 		
-		String SourcePath = "Users" + "\\" + Useremail + "\\" + "Trash"+"\\" + mail.getName();
-		for (int i = 0; i < data.getTrash().size(); i++) {
+		String SourcePath = "Users" + "\\" + Useremail + "\\" + "Draft"+"\\" + mail.getName();
+		for (int i = 0; i < data.getDraft().size(); i++) {
 			if (data.getDraft().get(i).getName().equalsIgnoreCase(mail.getName())) {
 				data.getDraft().remove(i);
 				break;
