@@ -17,7 +17,7 @@ public class searchEmail {
 		if(body && !found)
 			found = searchString(str, email.getBody());
 		if(attachments && !found)
-			found = searchAttachments(str, "bla bla");
+			found = searchAttachments(str, email);
 		return found;
 	}
 	
@@ -27,8 +27,16 @@ public class searchEmail {
 		return true;
 	}
 	
-	private boolean searchAttachments(String str, String email) {
-		return false;
+	private boolean searchAttachments(String str, Mail email) {
+		if(email.getAttachments() == null)
+			return false;
+		else {
+			boolean found1 = false;
+			for(int i=1; i<email.getAttachments().length && !found1; i++) {
+				found1 = searchString(str,email.getAttachments()[i]);
+			}
+			return found1;
+		}
 	}
 	
 	// delete this later
